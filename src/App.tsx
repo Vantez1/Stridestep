@@ -4,8 +4,8 @@ import { useEffect } from 'react';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import Home from './pages/Home';
-import Services from './pages/Services';
-import Tracking from './pages/Tracking';
+import Shop from "./pages/Shop";
+import OrderTracking from './pages/OrderTracking';
 import ShoeMarketing from './pages/ShoeMarketing';
 import About from './pages/About';
 import Quote from './pages/Quote';
@@ -38,8 +38,8 @@ export default function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/tracking" element={<Tracking />} />
+          <Route path="/services" element={<Shop />} />
+          <Route path="/tracking" element={<OrderTracking />} />
           <Route path="/shoe-marketing" element={<ShoeMarketing />} />
           <Route path="/about" element={<About />} />
           <Route path="/quote" element={<Quote />} />

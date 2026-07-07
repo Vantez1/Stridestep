@@ -1,4 +1,4 @@
-// src/pages/Tracking.tsx
+// src/pages/OrderTracking.tsx
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Search, Package, Truck, CheckCircle, Clock, MapPin, ArrowRight } from 'lucide-react';
@@ -132,7 +132,7 @@ function ShipmentResult({ shipment }: { shipment: Shipment }) {
   );
 }
 
-export default function Tracking() {
+export default function OrderTracking() {
   const [searchParams] = useSearchParams();
   const [query, setQuery] = useState(searchParams.get('q') ?? '');
   const [submitted, setSubmitted] = useState(!!searchParams.get('q'));
