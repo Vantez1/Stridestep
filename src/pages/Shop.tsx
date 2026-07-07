@@ -1,4 +1,6 @@
 // src/pages/Services.tsx
+import { products } from "../data/products";
+import ProductCard from "../components/products/ProductCard";
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { FadeIn, SectionTag, SectionHeading, BtnPrimary } from '../components/ui';
@@ -31,6 +33,23 @@ export default function Services() {
           </div>
         </div>
       </div>
+      
+    {/* Products */}
+<section className="py-16 bg-slate-50">
+  <div className="max-w-7xl mx-auto px-6">
+    <SectionTag>Featured Products</SectionTag>
+
+    <h2 className="font-display font-black text-3xl text-slate-900 mt-2 mb-8">
+      Shop Our Collection
+    </h2>
+
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {products.map((product) => (
+        <ProductCard key={product.id} product={product} />
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* Service sections */}
       {SERVICES.map((svc, idx) => (
