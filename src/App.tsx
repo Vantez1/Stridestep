@@ -8,7 +8,7 @@ import Shop from "./pages/Shop";
 import OrderTracking from './pages/OrderTracking';
 import ShoeMarketing from './pages/ShoeMarketing';
 import About from './pages/About';
-import Quote from './pages/Quote';
+import Cart from './pages/Cart';
 import Contact from './pages/Contact';
 import Careers from './pages/Careers';
 import Portal from './pages/Portal';
@@ -42,7 +42,7 @@ export default function App() {
           <Route path="/tracking" element={<OrderTracking />} />
           <Route path="/shoe-marketing" element={<ShoeMarketing />} />
           <Route path="/about" element={<About />} />
-          <Route path="/quote" element={<Quote />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/portal" element={<Portal />} />

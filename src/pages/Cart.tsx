@@ -6,7 +6,7 @@ import { FadeIn, SectionTag, FormInput, FormSelect, FormTextarea, BtnPrimary } f
 
 const STEPS = ['Your Details', 'Style & Fit', 'Delivery Preferences', 'Review & Submit'];
 
-export default function Quote() {
+export default function Cart() {
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [ref] = useState('LLQ-' + Math.floor(Math.random() * 90000 + 10000));
