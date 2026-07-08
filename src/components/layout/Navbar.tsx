@@ -1,8 +1,9 @@
-// src/components/layout/Navbar.tsx
+import { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { useScrollY, useMobileMenu } from '../../hooks';
 import { NAV_LINKS } from '../../data';
+import { CartContext } from '../../context/CartContext';
 
 export default function Navbar() {
   const scrollY = useScrollY();
@@ -10,6 +11,18 @@ export default function Navbar() {
   const { pathname } = useLocation();
   const scrolled = scrollY > 48;
 
+const cartContext = useContext(CartContext);
+
+if (!cartContext) {
+  throw new Error("CartContext is not available.");
+}
+
+const { cart } = cartContext;
+
+const cartCount = cart.reduce(
+  (total, item) => total + item.quantity,
+  0
+);
   return (
     <>
       <header
@@ -44,6 +57,17 @@ export default function Navbar() {
               </Link>
             ))}
           </nav>
+
+          <Link
+            to="/cart"
+            className={`text-sm font-semibold px-4 py-2 rounded-lg no-underline transition-all duration-200 ${
+              scrolled
+                ? "text-slate-700 hover:text-navy"
+                : "text-white hover:text-amber-brand"
+             }`}
+          >
+             🛒 Cart ({cartCount})
+         </Link>
 
           {/* CTA */}
           <div className="hidden lg:flex items-center gap-3">

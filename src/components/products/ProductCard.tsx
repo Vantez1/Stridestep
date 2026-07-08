@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { CartContext } from "../../context/CartContext";
+
 type Product = {
   id: number;
   brand: string;
@@ -15,6 +17,14 @@ type ProductCardProps = {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const [added, setAdded] = useState(false);
+
+const cartContext = useContext(CartContext);
+
+if (!cartContext) {
+  throw new Error("CartContext is not available.");
+}
+
+const { addToCart } = cartContext;
 
   return (
     <div className="relative rounded-xl border bg-white p-4 shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
@@ -40,12 +50,20 @@ export default function ProductCard({ product }: ProductCardProps) {
 
       <button
   onClick={() => {
-    setAdded(true);
+  addToCart({
+    id: product.id,
+    brand: product.brand,
+    name: product.name,
+    price: product.price,
+    image: product.image,
+  });
 
-    setTimeout(() => {
-      setAdded(false);
-    }, 2000);
-  }}
+  setAdded(true);
+
+  setTimeout(() => {
+    setAdded(false);
+  }, 2000);
+}}
   className="mt-5 w-full rounded-xl bg-blue-700 py-3 font-semibold text-white transition hover:bg-blue-800"
 >
   {added ? "✅ Added!" : "🛒 Add to Cart"}
