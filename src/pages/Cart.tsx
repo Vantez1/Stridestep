@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
+import { Link } from "react-router-dom";
 
 export default function Cart() {
   const cartContext = useContext(CartContext);
@@ -106,9 +107,11 @@ export default function Cart() {
               <span>KSh {total.toLocaleString()}</span>
             </div>
 
-            <button className="mt-6 w-full rounded-xl bg-blue-700 py-4 text-white font-semibold hover:bg-blue-800 transition">
-              Proceed to Checkout
-            </button>
+            <Link to="/checkout">
+             <button className="mt-6 w-full rounded-xl bg-blue-700 py-4 text-white font-semibold hover:bg-blue-800 transition">
+               Proceed to Checkout
+             </button>
+            </Link>
           </div>
         </>
       )}

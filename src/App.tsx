@@ -13,6 +13,8 @@ import Contact from './pages/Contact';
 import Careers from './pages/Careers';
 import Portal from './pages/Portal';
 import ProductDetails from "./pages/ProductDetails";
+import Checkout from "./pages/Checkout";
+import OrderSuccess from "./pages/OrderSuccess";
 
 function ScrollTop() {
   const { pathname } = useLocation();
@@ -48,6 +50,8 @@ export default function App() {
           <Route path="/careers" element={<Careers />} />
           <Route path="/portal" element={<Portal />} />
           <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/order-success" element={<OrderSuccess />} />
         </Routes>
       </Layout>
     </BrowserRouter>
