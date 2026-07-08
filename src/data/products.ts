@@ -7,6 +7,8 @@ export const products = [
     category: "Running",
     rating: 4.8,
     image: "/images/nike-airmax.jpg",
+    description:
+  "Lightweight running shoe with responsive cushioning."
   },
   {
     id: 2,
@@ -16,6 +18,8 @@ export const products = [
     category: "Running",
     rating: 4.9,
     image: "/images/adidas-ultraboost.jpg",
+    description:
+  "Premium comfort with energy-returning foam for daily runs."
   },
   {
     id: 3,
@@ -25,6 +29,8 @@ export const products = [
     category: "Lifestyle",
     rating: 4.6,
     image: "/images/puma-rsx.jpg",
+    description:
+  "Stylish everyday sneaker built for comfort and durability."
   },
   {
     id: 4,
@@ -34,5 +40,7 @@ export const products = [
     category: "Casual",
     rating: 4.7,
     image: "/images/newbalance530.jpg",
+    description:
+  "Classic retro design with modern cushioning for all-day wear."       
   },
 ];

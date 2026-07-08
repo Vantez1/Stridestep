@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { CartContext } from "../../context/CartContext";
+import { Link } from "react-router-dom";
 
 type Product = {
   id: number;
@@ -32,13 +33,17 @@ const { addToCart } = cartContext;
         🤍
       </button>
 
-      <img
-        src={product.image}
-        alt={product.name}
-        className="h-48 w-full rounded-lg object-cover"
-      />
+<Link to={`/product/${product.id}`} className="no-underline text-inherit">
+  <img
+    src={product.image}
+    alt={product.name}
+    className="h-48 w-full object-cover rounded-lg transition-transform duration-300 hover:scale-105"
+  />
 
-      <h3 className="mt-4 text-xl font-bold">{product.name}</h3>
+  <h3 className="mt-4 text-xl font-bold hover:text-blue-700 transition-colors">
+    {product.name}
+  </h3>
+</Link>
 
       <p className="text-gray-500">{product.brand}</p>
 

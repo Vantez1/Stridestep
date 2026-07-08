@@ -1,12 +1,27 @@
 // src/pages/Services.tsx
 import { products } from "../data/products";
 import ProductCard from "../components/products/ProductCard";
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { FadeIn, SectionTag, SectionHeading, BtnPrimary } from '../components/ui';
 import { SERVICES } from '../data';
 
 export default function Services() {
+const [search, setSearch] = useState("");
+const [category, setCategory] = useState("All");
+
+const filteredProducts = products.filter((product) => {
+  const matchesSearch =
+    product.name.toLowerCase().includes(search.toLowerCase()) ||
+    product.brand.toLowerCase().includes(search.toLowerCase());
+
+  const matchesCategory =
+    category === "All" || product.category === category;
+
+  return matchesSearch && matchesCategory;
+}); 
+
   return (
     <>
       <section className="pt-28 pb-16" style={{ background: 'linear-gradient(135deg, #0a2d46, #1565C0)' }}>
@@ -37,16 +52,45 @@ export default function Services() {
     {/* Products */}
 <section className="py-16 bg-slate-50">
   <div className="max-w-7xl mx-auto px-6">
-    <SectionTag>Featured Products</SectionTag>
+<SectionTag>Featured Products</SectionTag>
+
+<div className="my-6">
+  <input
+    type="text"
+    placeholder="🔍 Search by shoe name or brand..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+    className="w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-600"
+  />
+</div>
+   
+<div className="mb-8 flex flex-wrap gap-3">
+  {["All", "Running", "Casual", "Basketball", "Boots"].map((cat) => (
+    <button
+      key={cat}
+      onClick={() => setCategory(cat)}
+      className={`rounded-full px-5 py-2 font-medium transition ${
+        category === cat
+          ? "bg-blue-700 text-white"
+          : "bg-gray-200 hover:bg-gray-300"
+      }`}
+    >
+      {cat}
+    </button>
+  ))}
+</div>
 
     <h2 className="font-display font-black text-3xl text-slate-900 mt-2 mb-8">
       Shop Our Collection
     </h2>
 
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
+{filteredProducts.map((product) => (
+  <ProductCard
+    key={product.id}
+    product={product}
+  />
+))}
     </div>
   </div>
 </section>
