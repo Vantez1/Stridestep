@@ -1,4 +1,5 @@
 export const products = [
+ 
   {
     id: 1,
     brand: "Nike",
@@ -7,8 +8,7 @@ export const products = [
     category: "Running",
     rating: 4.8,
     image: "/images/nike-airmax.jpg",
-    description:
-  "Lightweight running shoe with responsive cushioning."
+    description: "Premium running shoe..."
   },
   {
     id: 2,

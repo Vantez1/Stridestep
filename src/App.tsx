@@ -15,6 +15,7 @@ import Portal from './pages/Portal';
 import ProductDetails from "./pages/ProductDetails";
 import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";
+import Admin from "./pages/Admin";
 
 function ScrollTop() {
   const { pathname } = useLocation();
@@ -52,6 +53,7 @@ export default function App() {
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-success" element={<OrderSuccess />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </Layout>
     </BrowserRouter>
