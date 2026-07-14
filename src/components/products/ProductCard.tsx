@@ -1,16 +1,7 @@
 import { useContext, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import { Link } from "react-router-dom";
-
-type Product = {
-  id: number;
-  brand: string;
-  name: string;
-  price: number;
-  category: string;
-  rating: number;
-  image: string;
-};
+import type { Product } from "../../data/products";
 
 type ProductCardProps = {
   product: Product;
@@ -33,14 +24,46 @@ const { addToCart } = cartContext;
         🤍
       </button>
 
-<Link to={`/product/${product.id}`} className="no-underline text-inherit">
-  <img
-    src={product.image}
-    alt={product.name}
-    className="h-48 w-full object-cover rounded-lg transition-transform duration-300 hover:scale-105"
-  />
 
-  <h3 className="mt-4 text-xl font-bold hover:text-blue-700 transition-colors">
+ <div className="relative">
+  <Link
+  to={`/product/${product.id}`}
+  className="block hover:text-blue-600 transition"
+>
+  <h3 className="text-xl font-bold">
+    {product.name}
+  </h3>
+</Link>
+
+
+  {product.id <= 2 && (
+    <span className="absolute left-3 top-3 rounded-full bg-red-600 px-3 py-1 text-xs font-bold text-white">
+      SALE
+    </span>
+  )}
+
+  {product.id === 4 && (
+    <span className="absolute right-3 top-3 rounded-full bg-green-600 px-3 py-1 text-xs font-bold text-white">
+      NEW
+    </span>
+  )}
+</div>
+
+<div className="mt-2 flex items-center gap-2">
+  <span className="text-yellow-500">
+    {"★".repeat(Math.floor(product.rating))}
+  </span>
+
+  <span className="text-sm text-gray-500">
+    ({product.rating})
+  </span>
+</div>
+
+  <Link
+  to={`/product/${product.id}`}
+  className="hover:text-blue-600 transition"
+>
+  <h3 className="text-xl font-bold">
     {product.name}
   </h3>
 </Link>
@@ -54,24 +77,35 @@ const { addToCart } = cartContext;
       <p className="mt-2">⭐ {product.rating}</p>
 
       <button
+  disabled={product.stock === 0}
   onClick={() => {
-  addToCart({
-    id: product.id,
-    brand: product.brand,
-    name: product.name,
-    price: product.price,
-    image: product.image,
-  });
+    if (product.stock === 0) return;
 
-  setAdded(true);
+    addToCart({
+      id: product.id,
+      brand: product.brand,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+    });
 
-  setTimeout(() => {
-    setAdded(false);
-  }, 2000);
-}}
-  className="mt-5 w-full rounded-xl bg-blue-700 py-3 font-semibold text-white transition hover:bg-blue-800"
+    setAdded(true);
+
+    setTimeout(() => {
+      setAdded(false);
+    }, 2000);
+  }}
+  className={`mt-5 w-full rounded-xl py-3 font-semibold text-white transition ${
+    product.stock === 0
+      ? "cursor-not-allowed bg-gray-400"
+      : "bg-blue-700 hover:bg-blue-800"
+  }`}
 >
-  {added ? "✅ Added!" : "🛒 Add to Cart"}
+  {product.stock === 0
+    ? "❌ Out of Stock"
+    : added
+    ? "✅ Added!"
+    : "🛒 Add to Cart"}
 </button>
     </div>
   );

@@ -165,11 +165,63 @@ const validateForm = () => {
           </div>
 
 <button
-  onClick={() => {
-    if (validateForm()) {
-      navigate("/order-success");
-    }
-  }}
+ onClick={() => {
+  if (!validateForm()) return;
+
+  const existingOrders = JSON.parse(
+    localStorage.getItem("orders") || "[]"
+  );
+
+  const newOrder = {
+    id: Date.now(),
+    customer: form.fullName,
+    total,
+    status: "Pending" as const,
+    items: cart,
+    email: form.email,
+    phone: form.phone,
+    address: form.address,
+    createdAt: new Date().toLocaleString(),
+  };
+
+  console.log("Saving order...", newOrder);
+
+  localStorage.setItem(
+    "orders",
+    JSON.stringify([...existingOrders, newOrder])
+  );
+
+ console.log("Orders after save:", localStorage.getItem("orders"));
+
+const savedProducts = JSON.parse(
+  localStorage.getItem("products") || "null"
+) ?? [];
+
+const updatedProducts = savedProducts.map((product: any) => {
+  const purchasedItem = cart.find(
+    (item) => item.id === product.id
+  );
+
+  if (!purchasedItem) return product;
+
+  return {
+    ...product,
+    stock: Math.max(
+      0,
+      product.stock - purchasedItem.quantity
+    ),
+  };
+});
+
+localStorage.setItem(
+  "products",
+  JSON.stringify(updatedProducts)
+);
+
+localStorage.removeItem("cart");
+
+navigate("/order-success");
+}}
   className="mt-8 w-full rounded-xl bg-green-600 py-4 text-white font-semibold hover:bg-green-700 transition"
 >
   Place Order

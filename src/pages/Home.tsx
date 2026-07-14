@@ -1,13 +1,18 @@
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, Shield, Clock, MapPin, Truck, ChevronRight } from 'lucide-react';
 import { FadeIn, SectionTag, SectionHeading, BtnPrimary, BtnOutline } from '../components/ui';
 import { useInView, useCounter } from '../hooks';
 import { SERVICES, STATS, TESTIMONIALS, INDUSTRIES } from '../data';
+import { products as initialProducts } from "../data/products";
+import { useState, useEffect } from "react";
+import ProductCard from "../components/products/ProductCard";
+
+
 
 function StatCell({ value, suffix, label }: { value: number; suffix: string; label: string }) {
   const { ref, inView } = useInView(0.5);
   const count = useCounter(value, inView);
+  
   return (
     <div ref={ref} className="text-center relative">
       <div className="font-display font-black text-5xl text-white leading-none mb-2">
@@ -47,6 +52,17 @@ function TrackingWidget() {
 }
 
 export default function Home() {
+const [products, setProducts] = useState(initialProducts);
+
+useEffect(() => {
+  const savedProducts = localStorage.getItem("products");
+
+  if (savedProducts) {
+    setProducts(JSON.parse(savedProducts));
+  }
+}, []);
+
+
   return (
     <>
       <section
@@ -229,6 +245,34 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <section className="py-24 bg-gray-50">
+  <div className="max-w-7xl mx-auto px-6">
+
+    <div className="text-center mb-14">
+      <p className="text-blue-600 font-semibold uppercase tracking-widest">
+        Featured Collection
+      </p>
+
+      <h2 className="text-5xl font-bold mt-3">
+        Best Selling Sneakers
+      </h2>
+
+      <p className="text-gray-600 mt-5 max-w-2xl mx-auto">
+        Discover our most popular footwear chosen by thousands of happy customers.
+      </p>
+    </div>
+
+    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+  {products.slice(0, 4).map((product) => (
+    <ProductCard
+      key={product.id}
+      product={product}
+    />
+  ))}
+  </div>
+  </div>
+</section>
 
       <section className="py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6">
