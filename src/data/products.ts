@@ -10,6 +10,7 @@ export interface Product {
   description: string;
   stock: number;
 }
+
 export const products: Product[] = [
   {
     id: 1,
@@ -25,10 +26,10 @@ export const products: Product[] = [
       "/images/nike-airmax.jpg",
       "/images/nike-airmax.jpg",
     ],
-    description: "Premium running shoe...",
+    description:
+      "Premium running shoe with lightweight cushioning and breathable mesh upper.",
     stock: 24,
   },
-
   {
     id: 2,
     brand: "Adidas",
@@ -47,7 +48,6 @@ export const products: Product[] = [
       "Premium comfort with energy-returning foam for daily runs.",
     stock: 17,
   },
-
   {
     id: 3,
     brand: "Puma",
@@ -66,7 +66,6 @@ export const products: Product[] = [
       "Stylish everyday sneaker built for comfort and durability.",
     stock: 6,
   },
-
   {
     id: 4,
     brand: "New Balance",

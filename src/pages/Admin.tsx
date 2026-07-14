@@ -30,51 +30,50 @@ export default function Admin() {
     );
   }, [products]);
 
-  const handleAddProduct = () => {
-    if (
-      !newProduct.name ||
-      !newProduct.brand ||
-      !newProduct.category ||
-      !newProduct.price
-    ) {
-      alert("Please fill in all required fields.");
-      return;
-    }
+ const handleAddProduct = () => {
+  if (
+    !newProduct.name ||
+    !newProduct.brand ||
+    !newProduct.category ||
+    !newProduct.price
+  ) {
+    alert("Please fill in all required fields.");
+    return;
+  }
 
-    const product: Product = {
-      id: editingId ?? Date.now(),
-      name: newProduct.name,
-      brand: newProduct.brand,
-      category: newProduct.category,
-      price: Number(newProduct.price),
-      image:
-        newProduct.image || "/images/placeholder.jpg",
-      rating: 5,
-      description:
-        "New product added from the admin dashboard.",
-      stock: 10,
-    };
-
-    if (editingId !== null) {
-      setProducts(
-        products.map((p) =>
-          p.id === editingId ? product : p
-        )
-      );
-    } else {
-      setProducts([...products, product]);
-    }
-
-    setEditingId(null);
-
-    setNewProduct({
-      name: "",
-      brand: "",
-      category: "",
-      price: "",
-      image: "",
-    });
+  const product: Product = {
+    id: editingId ?? Date.now(),
+    name: newProduct.name,
+    brand: newProduct.brand,
+    category: newProduct.category,
+    price: Number(newProduct.price),
+    image: newProduct.image,
+    images: [newProduct.image],
+    rating: 0,
+    description: "",
+    stock: 0,
   };
+
+  if (editingId !== null) {
+    setProducts(
+      products.map((p) =>
+        p.id === editingId ? product : p
+      )
+    );
+  } else {
+    setProducts([...products, product]);
+  }
+
+  setEditingId(null);
+
+  setNewProduct({
+    name: "",
+    brand: "",
+    category: "",
+    price: "",
+    image: "",
+  });
+}; 
 
   const handleDeleteProduct = (id: number) => {
     if (!window.confirm("Delete this product?")) return;
