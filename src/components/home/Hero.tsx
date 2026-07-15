@@ -1,7 +1,6 @@
-import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
-import TrackingWidget from "./TrackingWidget";
-import { BtnPrimary, BtnOutline } from "../ui";
+import HeroContent from "./HeroContent";
+import HeroStats from "./HeroStats";
+import HeroImage from "./HeroImage";
 
 export default function Hero() {
   return (
@@ -9,19 +8,24 @@ export default function Hero() {
       className="relative overflow-hidden"
       style={{
         background:
-          "radial-gradient(circle at top right, rgba(245,158,11,0.18), transparent 30%), linear-gradient(135deg,#020617 0%,#0F172A 45%,#1E3A8A 100%)",
+          "radial-gradient(circle at top right, rgba(245,158,11,0.15), transparent 30%), linear-gradient(135deg,#020617 0%,#0F172A 45%,#1E3A8A 100%)",
       }}
     >
-      <div className="mx-auto flex min-h-screen max-w-7xl items-center px-6 py-20">
-        <div className="grid w-full grid-cols-1 gap-16 lg:grid-cols-2">
+      {/* Decorative Background */}
+      <div className="absolute inset-0">
+        <div className="absolute -top-32 -left-32 h-96 w-96 rounded-full bg-amber-brand/20 blur-[120px]" />
+        <div className="absolute bottom-0 right-0 h-[420px] w-[420px] rounded-full bg-blue-500/20 blur-[140px]" />
+      </div>
 
-          {/* Left Content */}
+      <div className="relative mx-auto flex min-h-screen max-w-7xl items-center px-6 py-20">
+        <div className="grid w-full items-center gap-16 lg:grid-cols-2">
+
           <div>
+            <HeroContent />
+            <HeroStats />
           </div>
 
-          {/* Right Content */}
-          <div>
-          </div>
+          <HeroImage />
 
         </div>
       </div>
