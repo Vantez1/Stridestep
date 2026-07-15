@@ -3,12 +3,29 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @layer base {
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body { font-family: 'Inter', sans-serif; @apply text-slate-700 bg-white; }
   h1,h2,h3,h4,h5,h6 { font-family: 'Poppins', sans-serif; @apply text-navy; }
 }
+
+body {
+  font-family: "Inter", sans-serif;
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Poppins", sans-serif;
+}
+
 
 @layer utilities {
   .animate-delay-100 { animation-delay: 100ms; }

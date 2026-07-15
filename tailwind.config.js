@@ -3,25 +3,37 @@ export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
     extend: {
-      colors: {
-        navy: {
-          DEFAULT: '#0F3D5E',
-          light: '#1a5280',
-          dark: '#0a2d46',
-        },
-        royal: {
-          DEFAULT: '#1565C0',
-          light: '#1976D2',
-        },
-        amber: {
-          brand: '#FF8F00',
-          light: '#FFA726',
-        },
-      },
+     colors: {
+  primary: '#0F172A',
+  secondary: '#1E3A8A',
+  accent: '#F59E0B',
+  background: '#F8FAFC',
+  muted: '#64748B',
+
+  navy: {
+    DEFAULT: '#0F172A',
+    light: '#1E293B',
+    dark: '#020617',
+  },
+
+  royal: {
+    DEFAULT: '#1E3A8A',
+    light: '#2563EB',
+  },
+
+  amber: {
+    brand: '#F59E0B',
+    light: '#FBBF24',
+  },
+},
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Poppins', 'system-ui', 'sans-serif'],
-      },
+  sans: ['Inter', 'system-ui', 'sans-serif'],
+  display: ['Poppins', 'system-ui', 'sans-serif'],
+
+  // New semantic font names
+  heading: ['Poppins', 'system-ui', 'sans-serif'],
+  body: ['Inter', 'system-ui', 'sans-serif'],
+},
       animation: {
         'fade-up': 'fadeUp 0.6s ease forwards',
         'fade-in': 'fadeIn 0.4s ease forwards',
