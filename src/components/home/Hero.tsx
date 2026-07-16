@@ -18,7 +18,7 @@ export default function Hero() {
         <div className="absolute bottom-0 right-0 h-[420px] w-[420px] rounded-full bg-blue-500/20 blur-[140px]" />
       </div>
 
-      <div className="relative mx-auto flex min-h-screen max-w-7xl items-center px-6 py-20">
+      <div className="relative mx-auto flex min-h-[100vh] max-w-7xl items-center px-6 py-28">
         <div className="grid w-full items-center gap-16 lg:grid-cols-2">
 
           <motion.div
