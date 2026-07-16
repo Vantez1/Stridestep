@@ -1,117 +1,152 @@
-// src/components/layout/Footer.tsx
-import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin } from 'lucide-react';
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaLinkedinIn,
+  FaXTwitter,
+  FaPhone,
+  FaEnvelope,
+  FaLocationDot,
+} from "react-icons/fa6";
 
-const services = [
-  { label: 'Men’s Shoes', href: '/services#mens' },
-  { label: 'Women’s Shoes', href: '/services#womens' },
-  { label: 'Kids’ Shoes', href: '/services#kids' },
-  { label: 'Sports & Running', href: '/services#sports' },
-  { label: 'Formal & Casual', href: '/services#casual' },
-  { label: 'Shoe Care', href: '/services#care' },
-];
-
-const company = [
-  { label: 'About Us', href: '/about' },
-  { label: 'Careers', href: '/careers' },
-  { label: 'Order Tracking', href: '/tracking' },
-  { label: 'Book a Visit', href: '/quote' },
-  { label: 'Contact', href: '/contact' },
-  { label: 'Customer Portal', href: '/portal' },
-];
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-900 text-slate-400">
-      <div className="max-w-7xl mx-auto px-6 pt-16 pb-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Brand */}
-          <div className="lg:col-span-1">
-            <Link to="/" className="flex items-center gap-2.5 no-underline mb-4">
-              <span className="w-9 h-9 rounded-xl bg-amber-brand flex items-center justify-center text-lg font-black text-white font-display">SS</span>
-              <span className="font-display font-black text-xl text-white tracking-tight">
-                StrideStep<span className="text-amber-brand">.</span>
-              </span>
-            </Link>
-            <p className="text-sm leading-relaxed mb-6">
-              Your go-to store for men’s, women’s, and kids’ footwear, plus expert fitting advice, fast delivery, and dependable aftercare.
-            </p>
-            <div className="flex items-center gap-2">
-              {['📘', '🐦', '💼', '📸'].map((icon, i) => (
-                <a key={i} href="#" className="w-9 h-9 rounded-lg bg-white/8 flex items-center justify-center text-sm hover:bg-amber-brand transition-colors">
-                  {icon}
-                </a>
-              ))}
-            </div>
-          </div>
+    <footer className="bg-slate-950 text-white">
 
-          {/* Services */}
-          <div>
-            <h4 className="text-white font-semibold text-sm mb-4 font-display">Services</h4>
-            <ul className="space-y-2.5">
-              {services.map(s => (
-                <li key={s.href}>
-                  <Link to={s.href} className="text-sm text-slate-400 hover:text-amber-brand transition-colors no-underline">
-                    {s.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+      <div className="mx-auto max-w-7xl px-6 py-20">
+
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
 
           {/* Company */}
+
           <div>
-            <h4 className="text-white font-semibold text-sm mb-4 font-display">Company</h4>
-            <ul className="space-y-2.5">
-              {company.map(c => (
-                <li key={c.href}>
-                  <Link to={c.href} className="text-sm text-slate-400 hover:text-amber-brand transition-colors no-underline">
-                    {c.label}
-                  </Link>
-                </li>
-              ))}
+
+            <h2 className="font-display text-3xl font-bold text-amber-brand">
+              StrideStep
+            </h2>
+
+            <p className="mt-6 leading-8 text-slate-400">
+              Premium footwear for every journey. From running
+              shoes to everyday essentials, StrideStep helps you
+              move with confidence.
+            </p>
+
+          </div>
+
+          {/* Quick Links */}
+
+          <div>
+
+            <h3 className="mb-6 text-xl font-semibold">
+              Quick Links
+            </h3>
+
+            <ul className="space-y-4 text-slate-400">
+
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/shop">Shop</Link></li>
+              <li><Link to="/about">About</Link></li>
+              <li><Link to="/contact">Contact</Link></li>
+
             </ul>
+
+          </div>
+
+          {/* Customer */}
+
+          <div>
+
+            <h3 className="mb-6 text-xl font-semibold">
+              Customer Support
+            </h3>
+
+            <ul className="space-y-4 text-slate-400">
+
+              <li>Shipping Information</li>
+              <li>Returns & Exchanges</li>
+              <li>Track Order</li>
+              <li>FAQs</li>
+
+            </ul>
+
           </div>
 
           {/* Contact */}
+
           <div>
-            <h4 className="text-white font-semibold text-sm mb-4 font-display">Contact</h4>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-2.5">
-                <MapPin size={14} className="text-amber-brand mt-0.5 shrink-0" />
-                <span className="text-sm">Moi Avenue, Nairobi CBD, Nairobi, Kenya</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Phone size={14} className="text-amber-brand shrink-0" />
-                <a href="tel:+254712345678" className="text-sm hover:text-amber-brand transition-colors no-underline">+254 712 345 678</a>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Mail size={14} className="text-amber-brand shrink-0" />
-                <a href="mailto:info@stridestepshoes.co.ke" className="text-sm hover:text-amber-brand transition-colors no-underline">info@stridestepshoes.co.ke</a>
-              </li>
-            </ul>
+
+            <h3 className="mb-6 text-xl font-semibold">
+              Contact Us
+            </h3>
+
+            <div className="space-y-5 text-slate-400">
+
+              <div className="flex items-center gap-3">
+                <FaPhone className="text-amber-brand" />
+                +254 700 123 456
+              </div>
+
+              <div className="flex items-center gap-3">
+                <FaEnvelope className="text-amber-brand" />
+                info@stridestep.co.ke
+              </div>
+
+              <div className="flex items-center gap-3">
+                <FaLocationDot className="text-amber-brand" />
+                Nairobi, Kenya
+              </div>
+
+            </div>
+
           </div>
+
         </div>
 
-        <div className="mt-12 pt-6 border-t border-white/8 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-slate-500">
-          <span>© 2024 StrideStep Shoes. All rights reserved.</span>
+        <div className="my-12 h-px bg-slate-700" />
+
+        <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
+
+          <p className="text-slate-400">
+            © {new Date().getFullYear()} StrideStep. All rights reserved.
+          </p>
+
           <div className="flex gap-4">
-            <a href="#" className="hover:text-amber-brand transition-colors no-underline">Privacy Policy</a>
-            <a href="#" className="hover:text-amber-brand transition-colors no-underline">Terms of Service</a>
+
+            <a
+              href="#"
+              className="rounded-full bg-slate-800 p-3 transition hover:bg-amber-brand"
+            >
+              <FaFacebookF />
+            </a>
+
+            <a
+              href="#"
+              className="rounded-full bg-slate-800 p-3 transition hover:bg-amber-brand"
+            >
+              <FaInstagram />
+            </a>
+
+            <a
+              href="#"
+              className="rounded-full bg-slate-800 p-3 transition hover:bg-amber-brand"
+            >
+              <FaXTwitter />
+            </a>
+
+            <a
+              href="#"
+              className="rounded-full bg-slate-800 p-3 transition hover:bg-amber-brand"
+            >
+              <FaLinkedinIn />
+            </a>
+
           </div>
+
         </div>
+
       </div>
 
-      {/* WhatsApp float */}
-      <a
-        href="https://wa.me/254712345678?text=Hello%20StrideStep%20Shoes!"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition-transform"
-        aria-label="WhatsApp"
-      >
-        💬
-      </a>
     </footer>
   );
 }

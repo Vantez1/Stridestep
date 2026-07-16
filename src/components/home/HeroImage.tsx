@@ -1,56 +1,27 @@
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import TrackingWidget from "./TrackingWidget";
+import { motion } from "framer-motion";
 
 export default function HeroImage() {
-
-const mouseX = useMotionValue(0);
-const mouseY = useMotionValue(0);
-
-const rotateX = useSpring(
-  useTransform(mouseY, [-150, 150], [10, -10])
-);
-
-const rotateY = useSpring(
-  useTransform(mouseX, [-150, 150], [-10, 10])
-);
-
-const handleMouseMove = (
-  e: React.MouseEvent<HTMLDivElement>
-) => {
-  const rect = e.currentTarget.getBoundingClientRect();
-
-  mouseX.set(e.clientX - rect.left - rect.width / 2);
-  mouseY.set(e.clientY - rect.top - rect.height / 2);
-};
-
-const resetMouse = () => {
-  mouseX.set(0);
-  mouseY.set(0);
-};
-
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, x: 60 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.9, delay: 0.3 }}
       className="relative flex items-center justify-center"
-      onMouseMove={handleMouseMove}
-      onMouseLeave={resetMouse}
-     >
-      {/* Animated Glow */}
-      <motion.img
-        style={{
-          rotateX,
-          rotateY,
-          transformPerspective: 1200,
-      }}
-/>
+    >
+      {/* Background Glow */}
+      <div className="absolute h-[420px] w-[420px] rounded-full bg-amber-brand/20 blur-[120px]" />
+
+      {/* Decorative Circle */}
+      <div className="absolute h-[520px] w-[520px] rounded-full border border-white/10" />
 
       {/* Floating Shoe */}
       <motion.img
         src="/images/hero-shoe.png"
-        alt="StrideStep Shoe"
-        className="relative z-10 w-full max-w-xl drop-shadow-[0_40px_80px_rgba(0,0,0,0.45)]"
+        alt="StrideStep Premium Shoe"
+        className="relative z-10 w-full max-w-lg drop-shadow-[0_35px_45px_rgba(0,0,0,0.45)]"
         animate={{
-          y: [0, -18, 0],
-          rotate: [0, -2, 2, 0],
+          y: [0, -15, 0],
+          rotate: [0, -2, 0, 2, 0],
         }}
         transition={{
           duration: 6,
@@ -59,19 +30,37 @@ const resetMouse = () => {
         }}
       />
 
-      {/* Tracking Widget */}
+      {/* Floating Badge */}
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{
-          delay: 0.6,
-          duration: 0.7,
-        }}
-        className="absolute -bottom-10 left-1/2 z-20 w-full max-w-sm -translate-x-1/2"
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ delay: 1 }}
+        className="absolute top-12 right-4 rounded-2xl bg-white px-5 py-3 shadow-2xl"
       >
-        <TrackingWidget />
+        <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+          New Arrival
+        </p>
+
+        <h3 className="mt-1 text-lg font-bold text-slate-900">
+          Air Max 270
+        </h3>
       </motion.div>
 
-    </div>
+      {/* Rating Card */}
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ delay: 1.2 }}
+        className="absolute bottom-12 left-2 rounded-2xl bg-white px-5 py-4 shadow-2xl"
+      >
+        <p className="text-2xl font-bold text-amber-500">
+          ★ 4.9
+        </p>
+
+        <p className="text-sm text-slate-600">
+          Customer Rating
+        </p>
+      </motion.div>
+    </motion.div>
   );
 }

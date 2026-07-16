@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import HeroContent from "./HeroContent";
 import HeroStats from "./HeroStats";
 import HeroImage from "./HeroImage";
@@ -20,10 +21,14 @@ export default function Hero() {
       <div className="relative mx-auto flex min-h-screen max-w-7xl items-center px-6 py-20">
         <div className="grid w-full items-center gap-16 lg:grid-cols-2">
 
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+          >
             <HeroContent />
             <HeroStats />
-          </div>
+          </motion.div>
 
           <HeroImage />
 
