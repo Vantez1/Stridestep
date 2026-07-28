@@ -7,32 +7,35 @@ export default function HeroContent() {
 
       <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-amber-brand/30 bg-white/5 px-5 py-2 text-sm font-semibold uppercase tracking-wider text-amber-300 backdrop-blur">
         <Sparkles size={16} />
-        New Collection 2026
+        New Arrivals • 2026 Collection
       </div>
 
-      <h1 className="max-w-xl font-display text-5xl font-extrabold leading-tight text-white md:text-7xl">
-        Step Into
+      <h1 className="max-w-xl font-display text-5xl font-black leading-[1.05] tracking-tight text-white md:text-7xl">
 
-        <span className="block bg-gradient-to-r from-amber-brand to-orange-400 bg-clip-text text-transparent">
-          Style
-        </span>
+  Premium
 
-        Without Limits
-      </h1>
+  <span className="block bg-gradient-to-r from-amber-brand to-orange-400 bg-clip-text text-transparent">
+    Footwear
+  </span>
+
+  For Every Step
+
+</h1>
 
       <p className="mt-8 max-w-xl text-xl leading-9 text-slate-300">
-        Premium footwear engineered for performance,
-        everyday comfort and timeless style.
-        Discover your perfect pair with StrideStep.
+         Discover premium footwear designed for comfort,
+         performance and everyday confidence.
+         From casual wear to athletic performance,
+         StrideStep helps you move in style.
       </p>
 
-      <div className="mt-10 flex flex-wrap gap-5">
+      <div className="mt-12 flex flex-wrap gap-5">
 
         <Link
           to="/shop"
           className="group inline-flex items-center rounded-xl bg-amber-brand px-8 py-4 font-semibold text-white transition hover:scale-105 hover:bg-orange-500"
         >
-          Shop Collection
+          Shop Now
 
           <ArrowRight
             className="ml-3 transition group-hover:translate-x-1"

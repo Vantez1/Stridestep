@@ -15,6 +15,7 @@ import Contact from "./pages/Contact";
 import Careers from "./pages/Careers";
 import Portal from "./pages/Portal";
 import ProductDetails from "./pages/ProductDetails";
+import Wishlist from "./pages/Wishlist";
 import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";
 import Admin from "./pages/Admin";
@@ -23,6 +24,7 @@ import Orders from "./pages/Orders";
 import NotFound from "./pages/NotFound";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+
 
 function ScrollTop() {
   const { pathname } = useLocation();
@@ -62,6 +64,7 @@ export default function App() {
           <Route path="/shoe-marketing" element={<ShoeMarketing />} />
           <Route path="/about" element={<About />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/portal" element={<Portal />} />

@@ -3,6 +3,7 @@ export interface Product {
   brand: string;
   name: string;
   price: number;
+  salePrice?: number;
   category: string;
   rating: number;
   image: string;
@@ -82,6 +83,6 @@ export const products: Product[] = [
     ],
     description:
       "Classic retro design with modern cushioning for all-day wear.",
-    stock: 0,
+    stock: 3,
   },
 ];

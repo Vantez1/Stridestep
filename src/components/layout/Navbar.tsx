@@ -4,6 +4,8 @@ import { Menu, X } from 'lucide-react';
 import { useScrollY, useMobileMenu } from '../../hooks';
 import { NAV_LINKS } from '../../data';
 import { CartContext } from '../../context/CartContext';
+import { WishlistContext } from "../../context/WishlistContext";
+import { FaHeart, FaShoppingBag } from "react-icons/fa";
 
 export default function Navbar() {
   const scrollY = useScrollY();
@@ -18,26 +20,48 @@ if (!cartContext) {
 }
 
 const { cart } = cartContext;
+const wishlistContext = useContext(WishlistContext);
+
+if (!wishlistContext) {
+  throw new Error("WishlistContext is not available.");
+}
+
+const { wishlist } = wishlistContext;
+
 
 const cartCount = cart.reduce(
   (total, item) => total + item.quantity,
   0
 );
+
+const wishlistCount = wishlist.length;
+
   return (
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-          scrolled ? 'bg-white shadow-md py-3' : 'bg-transparent py-5'
+         scrolled
+  ? "bg-white/70 backdrop-blur-xl border-b border-white/30 shadow-lg py-3"
+  : "bg-transparent py-5"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          {/* Logo */}
-          <Link to="/" onClick={close} className="flex items-center gap-2.5 no-underline">
-            <span className="w-10 h-10 rounded-xl bg-amber-brand flex items-center justify-center text-xl font-black text-white font-display">SS</span>
-            <span className={`font-display font-black text-xl tracking-tight transition-colors ${scrolled ? 'text-navy' : 'text-white'}`}>
-              StrideStep<span className="text-amber-brand">.</span>
-            </span>
-          </Link>
+          {/* Brand Logo */}
+<Link
+  to="/"
+  onClick={close}
+  className="flex items-center no-underline"
+>
+ <img
+  src={
+    scrolled
+      ? "/brands/logo-full.png"
+      : "/brands/logo-full-white.png"
+  }
+  alt="StrideStep"
+  className="h-16 w-auto object-contain transition-all duration-300 hover:scale-105 lg:h-[72px]"
+/>
+</Link>
 
           {/* Desktop nav */}
           <nav className="hidden lg:flex items-center gap-1">
@@ -45,12 +69,12 @@ const cartCount = cart.reduce(
               <Link
                 key={link.href}
                 to={link.href}
-                className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200 no-underline ${
+                className={`relative px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 no-underline hover:-translate-y-0.5 ${
                   pathname === link.href
-                    ? 'text-amber-brand'
+                    ? "text-amber-brand bg-amber-50"
                     : scrolled
-                    ? 'text-slate-700 hover:text-navy hover:bg-slate-100'
-                    : 'text-white/90 hover:text-white hover:bg-white/10'
+                    ? "text-slate-700 hover:text-navy hover:bg-slate-100"
+                    : "text-white/90 hover:text-white hover:bg-white/10"
                 }`}
               >
                 {link.label}
@@ -58,16 +82,46 @@ const cartCount = cart.reduce(
             ))}
           </nav>
 
-          <Link
-            to="/cart"
-            className={`text-sm font-semibold px-4 py-2 rounded-lg no-underline transition-all duration-200 ${
-              scrolled
-                ? "text-slate-700 hover:text-navy"
-                : "text-white hover:text-amber-brand"
-             }`}
-          >
-             🛒 Cart ({cartCount})
-         </Link>
+          {/* Wishlist & Cart */}
+<div className="hidden lg:flex items-center gap-3">
+
+  {/* Wishlist */}
+  <Link
+    to="/wishlist"
+    className={`relative flex h-11 w-11 items-center justify-center rounded-full transition-all duration-300 ${
+      scrolled
+        ? "bg-white text-slate-700 hover:bg-red-50 hover:text-red-500"
+        : "bg-white/10 text-white hover:bg-white/20"
+    }`}
+  >
+    <FaHeart size={18} />
+
+    {wishlistCount > 0 && (
+      <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+        {wishlistCount}
+      </span>
+    )}
+  </Link>
+
+  {/* Cart */}
+  <Link
+    to="/cart"
+    className={`relative flex h-11 w-11 items-center justify-center rounded-full transition-all duration-300 ${
+      scrolled
+        ? "bg-white text-slate-700 hover:bg-amber-50 hover:text-amber-600"
+        : "bg-white/10 text-white hover:bg-white/20"
+    }`}
+  >
+    <FaShoppingBag size={18} />
+
+    {cartCount > 0 && (
+      <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-amber-brand text-[10px] font-bold text-white">
+        {cartCount}
+      </span>
+    )}
+  </Link>
+
+</div>
 
           {/* CTA */}
           <div className="hidden lg:flex items-center gap-3">
@@ -83,7 +137,7 @@ const cartCount = cart.reduce(
             </Link>
             <Link
               to="/quote"
-              className="text-sm font-semibold px-5 py-2.5 rounded-lg bg-amber-brand text-white hover:bg-amber-600 transition-all duration-200 no-underline shadow-sm hover:shadow-md"
+              className="group relative overflow-hidden rounded-xl bg-amber-brand px-6 py-3 text-sm font-semibold text-white no-underline shadow-lg transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-amber-500 hover:shadow-2xl"
             >
               Book a Visit
             </Link>

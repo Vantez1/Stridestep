@@ -1,20 +1,33 @@
-import { useParams } from "react-router-dom";
 import { useContext, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import toast from "react-hot-toast";
+
 import { products } from "../data/products";
-import { CartContext } from "../context/CartContext";
+
+import ProductGallery from "../components/products/ProductGallery";
+import ProductInfo from "../components/products/ProductInfo";
+import ProductActions from "../components/products/ProductActions";
+import ProductFeatures from "../components/products/ProductFeatures";
 import ProductCard from "../components/products/ProductCard";
+import ProductTrust from "../components/products/ProductTrust";
+import ProductSpecifications from "../components/products/ProductSpecifications";
+
+import { CartContext } from "../context/CartContext";
+import ProductHighlights from "../components/products/ProductHighlights";
+import ProductReviews from "../components/products/ProductReviews";
 
 export default function ProductDetails() {
   const { id } = useParams();
 
-  const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
-
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
+  const [quantity, setQuantity] = useState(1);
 
   const cartContext = useContext(CartContext);
 
   if (!cartContext) {
-    throw new Error("CartContext is not available.");
+    throw new Error("CartContext missing");
   }
 
   const { addToCart } = cartContext;
@@ -25,8 +38,8 @@ export default function ProductDetails() {
 
   if (!product) {
     return (
-      <div className="max-w-6xl mx-auto py-20 text-center">
-        <h1 className="text-3xl font-bold">
+      <div className="mx-auto max-w-7xl py-24 text-center">
+        <h1 className="text-4xl font-bold">
           Product Not Found
         </h1>
       </div>
@@ -41,150 +54,92 @@ export default function ProductDetails() {
     )
     .slice(0, 4);
 
-  return (
-    <div className="max-w-6xl mx-auto px-6 py-24">
+      return (
+  <div className="bg-slate-50">
+    <div className="mx-auto max-w-7xl px-6 py-16">
 
-      <div className="grid gap-12 md:grid-cols-2">
+      <nav className="mb-8 flex flex-wrap items-center gap-2 text-sm text-slate-500">
 
-        <img
-          src={product.images[selectedImage]}
-          alt={product.name}
-          className="w-full rounded-2xl shadow-lg transition-all duration-300"
+        <Link
+          to="/"
+          className="transition hover:text-royal"
+        >
+          Home
+        </Link>
+
+        <span>/</span>
+
+        <Link
+          to="/shop"
+          className="transition hover:text-royal"
+        >
+          Shop
+        </Link>
+
+        <span>/</span>
+
+        <span>{product.category}</span>
+
+        <span>/</span>
+
+        <span className="font-semibold text-navy">
+          {product.name}
+        </span>
+
+      </nav>
+  </div>
+<div className="grid gap-8 lg:grid-cols-2">
+
+        <ProductGallery
+          product={product}
+          selectedImage={selectedImage}
+          setSelectedImage={setSelectedImage}
         />
 
-        <div className="mt-4 flex gap-3">
+        <div className="lg:sticky lg:top-24 lg:self-start">
 
-  {product.images.map((image, index) => (
+  <ProductInfo
+    product={product}
+  />
 
-    <button
-      key={index}
-      onClick={() => setSelectedImage(index)}
-      className={`overflow-hidden rounded-lg border-2 transition ${
-        selectedImage === index
-          ? "border-blue-600"
-          : "border-gray-200 hover:border-blue-400"
-      }`}
-    >
+  <ProductActions
+    product={product}
+    selectedSize={selectedSize}
+    setSelectedSize={setSelectedSize}
+    selectedColor={selectedColor}
+    setSelectedColor={setSelectedColor}
+    quantity={quantity}
+    setQuantity={setQuantity}
+    addToCart={addToCart}
+  />
 
-      <img
-        src={image}
-        alt={`${product.name} ${index + 1}`}
-        className="h-20 w-20 object-cover"
-      />
-
-    </button>
-
-  ))}
-
-</div>
-
-        <div>
-
-          <h1 className="text-4xl font-bold">
-            {product.name}
-          </h1>
-
-          <p className="mt-2 text-gray-500">
-            {product.brand}
-          </p>
-
-          <p className="mt-6 text-3xl font-bold text-blue-700">
-            KSh {product.price.toLocaleString()}
-          </p>
-
-          <p className="mt-4">
-            ⭐ {product.rating}
-          </p>
-
-          <p className="mt-6 text-gray-600">
-            {product.description}
-          </p>
-
-          <p className="mt-8 font-semibold">
-            Stock: {product.stock}
-          </p>
-
-          <div className="mt-8 flex items-center gap-4">
-
-            <button
-              onClick={() =>
-                setQuantity(Math.max(1, quantity - 1))
-              }
-              className="rounded-lg bg-gray-200 px-4 py-2"
-            >
-              −
-            </button>
-
-            <span className="text-xl font-bold">
-              {quantity}
-            </span>
-
-            <button
-              onClick={() =>
-                setQuantity(
-                  Math.min(product.stock, quantity + 1)
-                )
-              }
-              className="rounded-lg bg-gray-200 px-4 py-2"
-            >
-              +
-            </button>
-
-          </div>
-
-          <button
-            onClick={() => {
-              for (let i = 0; i < quantity; i++) {
-                addToCart({
-                  id: product.id,
-                  brand: product.brand,
-                  name: product.name,
-                  price: product.price,
-                  image: product.image,
-                });
-              }
-            }}
-            disabled={product.stock === 0}
-            className={`mt-6 w-full rounded-xl py-4 font-semibold text-white ${
-              product.stock === 0
-                ? "cursor-not-allowed bg-gray-400"
-                : "bg-blue-700 hover:bg-blue-800"
-            }`}
-          >
-            {product.stock === 0
-              ? "Out of Stock"
-              : "Add to Cart"}
-          </button>
-
-        </div>
-
+  <ProductHighlights />
+  <ProductTrust />
+  <ProductSpecifications product={product} />
+   <ProductFeatures />
+   
+       </div>
       </div>
 
-      <div className="mt-20">
-
+      <section className="mt-14">
         <h2 className="mb-8 text-3xl font-bold">
           Related Products
         </h2>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-
-          {relatedProducts.length > 0 ? (
-            relatedProducts.map((related) => (
-              <ProductCard
-                key={related.id}
-                product={related}
-              />
-            ))
-          ) : (
-            <p className="text-gray-500">
-              No related products found.
-            </p>
-          )}
-
+          {relatedProducts.map((related) => (
+            <ProductCard
+              key={related.id}
+              product={related}
+            />
+          ))}
         </div>
+      </section>
 
-      </div>
+      <ProductReviews />
 
     </div>
-  );
+  
+
+);
 }

@@ -47,20 +47,36 @@ export default function Cart() {
 
                 <div className="flex-1">
                   <h2 className="text-xl font-bold">
-                    {item.name}
-                  </h2>
+  {item.name}
+</h2>
 
-                  <p className="text-gray-500">
-                    {item.brand}
-                  </p>
+<p className="text-gray-500">
+  {item.brand}
+</p>
 
-                  <p className="font-semibold">
-                    KSh {item.price.toLocaleString()}
-                  </p>
+<div className="mt-2 flex flex-wrap gap-4 text-sm text-slate-600">
+  <span>
+    <strong>Size:</strong> {item.size}
+  </span>
+
+  <span>
+    <strong>Colour:</strong> {item.color}
+  </span>
+</div>
+
+<p className="mt-2 font-semibold">
+  KSh {item.price.toLocaleString()}
+</p>
 
                   <div className="flex items-center gap-3 mt-4">
                     <button
-                      onClick={() => decreaseQuantity(item.id)}
+                      onClick={() =>
+  decreaseQuantity(
+    item.id,
+    item.size,
+    item.color
+  )
+}
                       className="w-8 h-8 rounded bg-gray-200 hover:bg-gray-300"
                     >
                       −
@@ -71,14 +87,26 @@ export default function Cart() {
                     </span>
 
                     <button
-                      onClick={() => increaseQuantity(item.id)}
+                      onClick={() =>
+  increaseQuantity(
+    item.id,
+    item.size,
+    item.color
+  )
+}
                       className="w-8 h-8 rounded bg-gray-200 hover:bg-gray-300"
                     >
                       +
                     </button>
 
                     <button
-                      onClick={() => removeFromCart(item.id)}
+                      onClick={() =>
+  removeFromCart(
+    item.id,
+    item.size,
+    item.color
+  )
+}
                       className="ml-6 text-red-600 hover:text-red-800 font-semibold"
                     >
                       Remove
