@@ -45,9 +45,11 @@ export default function Navbar() {
     : "bg-white/10 text-slate-950 hover:bg-slate-100";
   // Use a nearly-opaque background and remove the subtle border so
   // the header doesn't produce a light/white strip over the page.
+  // Use solid neutral backgrounds (no tint) so the header doesn't pick up
+  // blue from page backgrounds when semi-transparent.
   const scrolledHeaderStyle = isDarkRoute
-    ? "bg-slate-950/95 py-3"
-    : "bg-white/95 py-3";
+    ? "bg-black py-3"
+    : "bg-white py-3";
   const scrolledPortalButton = isDarkRoute
     ? "border-white/25 text-white hover:border-white/60 hover:text-white"
     : "border-slate-300 text-slate-950 hover:bg-white/10 hover:text-slate-950";
