@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 import { FaShoppingBag, FaTrash } from "react-icons/fa";
 
 import { WishlistContext } from "../context/WishlistContext";
@@ -28,15 +29,19 @@ const { addToCart } = cartContext;
 function moveAllToCart() {
   wishlist.forEach((item) => {
     addToCart({
-      id: item.id,
-      brand: item.brand,
-      name: item.name,
-      price: item.price,
-      image: item.image,
-    });
+  id: item.id,
+  brand: item.brand,
+  name: item.name,
+  price: item.price,
+  image: item.image,
+  size: "42",
+  color: "Black",
+});
   });
 
-  clearWishlist();
+ clearWishlist();
+
+toast.success("All items moved to cart 🛒");
 }
 
   return (
@@ -108,7 +113,7 @@ function moveAllToCart() {
   <div className="flex gap-3">
 
     <Link
-      to="/services"
+      to="/shop"
       className="rounded-xl border border-slate-300 px-5 py-3 font-semibold text-slate-700 no-underline transition hover:border-navy hover:text-navy"
     >
       Continue Shopping
@@ -159,7 +164,7 @@ function moveAllToCart() {
           </p>
 
           <Link
-            to="/services"
+            to="/shop"
             className="mt-8 inline-block rounded-xl bg-amber-brand px-8 py-4 font-semibold text-white no-underline transition hover:scale-105"
           >
             Continue Shopping
@@ -181,7 +186,7 @@ function moveAllToCart() {
       <img
         src={item.image}
         alt={item.name}
-        className="h-64 w-full object-cover"
+        className="h-64 w-full bg-slate-50 object-contain p-6"
       />
 
       <div className="p-6">
@@ -201,15 +206,19 @@ function moveAllToCart() {
         <div className="mt-6 flex gap-2">
 
           <button
-            onClick={() =>
-              addToCart({
-                id: item.id,
-                brand: item.brand,
-                name: item.name,
-                price: item.price,
-                image: item.image,
-              })
-            }
+            onClick={() => {
+  addToCart({
+    id: item.id,
+    brand: item.brand,
+    name: item.name,
+    price: item.price,
+    image: item.image,
+    size: "42",
+    color: "Black",
+  });
+
+  toast.success("Added to Cart 🛒");
+}}
             className="flex-1 rounded-xl bg-royal py-3 font-semibold text-white transition hover:bg-navy"
           >
             <span className="flex items-center justify-center gap-2">
@@ -219,7 +228,13 @@ function moveAllToCart() {
           </button>
 
           <button
-            onClick={() => removeFromWishlist(item.id)}
+            onClick={() => {
+  removeFromWishlist(item.id);
+
+  toast("Removed from Wishlist", {
+    icon: "💔",
+  });
+}}
             className="rounded-xl bg-red-500 px-4 text-white transition hover:bg-red-600"
           >
             <FaTrash />

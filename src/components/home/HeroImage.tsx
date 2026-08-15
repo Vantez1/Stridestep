@@ -53,30 +53,6 @@ export default function HeroImage() {
         }}
       />
 
-      {/* New Arrival Card */}
-      <motion.div
-  initial={{ scale: 0 }}
-  animate={{
-    scale: 1,
-    y: [0, -8, 0],
-  }}
-  transition={{
-    delay: 0.0,
-    duration: 4,
-    repeat: Infinity,
-    ease: "easeInOut",
-  }}
-  className="absolute top-20 right-0 rounded-2xl bg-white/95 backdrop-blur-md px-5 py-3 shadow-2xl"
->
-        <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
-          New 2026
-        </p>
-
-        <h3 className="mt-1 text-lg font-bold text-slate-900">
-          Nike Air Max 270
-        </h3>
-      </motion.div>
-
       {/* Rating Card */}
       <motion.div
   initial={{ scale: 0 }}

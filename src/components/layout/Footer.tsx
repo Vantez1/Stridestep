@@ -38,7 +38,7 @@ export default function Footer() {
 
           <div>
 
-            <h3 className="mb-6 text-xl font-semibold">
+            <h3 className="mb-6 text-xl font-semibold text-amber-brand">
               Quick Links
             </h3>
 
@@ -57,16 +57,24 @@ export default function Footer() {
 
           <div>
 
-            <h3 className="mb-6 text-xl font-semibold">
+            <h3 className="mb-6 text-xl font-semibold text-amber-brand">
               Customer Support
             </h3>
 
             <ul className="space-y-4 text-slate-400">
 
-              <li>Shipping Information</li>
-              <li>Returns & Exchanges</li>
-              <li>Track Order</li>
-              <li>FAQs</li>
+              <li>
+                <Link to="/shipping">Shipping Information</Link>
+              </li>
+              <li>
+                <Link to="/returns">Returns & Exchanges</Link>
+              </li>
+              <li>
+                <Link to="/order-tracking">Track Order</Link>
+              </li>
+              <li>
+                <Link to="/faqs">FAQs</Link>
+              </li>
 
             </ul>
 
@@ -76,20 +84,21 @@ export default function Footer() {
 
           <div>
 
-            <h3 className="mb-6 text-xl font-semibold">
+            <h3 className="mb-6 text-xl font-semibold text-amber-brand">
               Contact Us
             </h3>
 
             <div className="space-y-5 text-slate-400">
 
+
               <div className="flex items-center gap-3">
                 <FaPhone className="text-amber-brand" />
-                +254 700 123 456
+                <a href="tel:+254700123456" className="text-slate-400 hover:underline">+254 700 123 456</a>
               </div>
 
               <div className="flex items-center gap-3">
                 <FaEnvelope className="text-amber-brand" />
-                info@stridestep.co.ke
+                <a href="mailto:info@stridestep.co.ke" className="text-slate-400 hover:underline">info@stridestep.co.ke</a>
               </div>
 
               <div className="flex items-center gap-3">
@@ -113,31 +122,19 @@ export default function Footer() {
 
           <div className="flex gap-4">
 
-            <a
-              href="#"
-              className="rounded-full bg-slate-800 p-3 transition hover:bg-amber-brand"
-            >
+            <a href="/" className="rounded-full bg-slate-800 p-3 transition hover:bg-amber-brand">
               <FaFacebookF />
             </a>
 
-            <a
-              href="#"
-              className="rounded-full bg-slate-800 p-3 transition hover:bg-amber-brand"
-            >
+            <a href="/" className="rounded-full bg-slate-800 p-3 transition hover:bg-amber-brand">
               <FaInstagram />
             </a>
 
-            <a
-              href="#"
-              className="rounded-full bg-slate-800 p-3 transition hover:bg-amber-brand"
-            >
+            <a href="/" className="rounded-full bg-slate-800 p-3 transition hover:bg-amber-brand">
               <FaXTwitter />
             </a>
 
-            <a
-              href="#"
-              className="rounded-full bg-slate-800 p-3 transition hover:bg-amber-brand"
-            >
+            <a href="/" className="rounded-full bg-slate-800 p-3 transition hover:bg-amber-brand">
               <FaLinkedinIn />
             </a>
 

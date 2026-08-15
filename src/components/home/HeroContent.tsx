@@ -1,14 +1,9 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export default function HeroContent() {
   return (
     <div className="animate-fade-up">
-
-      <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-amber-brand/30 bg-white/5 px-5 py-2 text-sm font-semibold uppercase tracking-wider text-amber-300 backdrop-blur">
-        <Sparkles size={16} />
-        New Arrivals • 2026 Collection
-      </div>
 
       <h1 className="max-w-xl font-display text-5xl font-black leading-[1.05] tracking-tight text-white md:text-7xl">
 

@@ -42,16 +42,20 @@ export function WishlistProvider({
   }, [wishlist]);
 
   function addToWishlist(item: WishlistItem) {
-    if (wishlist.some((p) => p.id === item.id)) return;
+  setWishlist((prev) => {
+    if (prev.some((p) => p.id === item.id)) {
+      return prev;
+    }
 
-    setWishlist([...wishlist, item]);
-  }
+    return [...prev, item];
+  });
+}
 
   function removeFromWishlist(id: number) {
-    setWishlist(
-      wishlist.filter((item) => item.id !== id)
-    );
-  }
+  setWishlist((prev) =>
+    prev.filter((item) => item.id !== id)
+  );
+}
 function clearWishlist() {
   setWishlist([]);
 }

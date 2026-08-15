@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 import type { Product } from "../../data/products";
 import {
   FaHeart,
@@ -98,23 +99,29 @@ const liked = isInWishlist(product.id);
         {/* Wishlist */}
         <button
   onClick={() => {
-    if (liked) {
-      removeFromWishlist(product.id);
-    } else {
-      addToWishlist({
-        id: product.id,
-        brand: product.brand,
-        name: product.name,
-        price: product.price,
-        image: product.image,
-      });
-    }
-  }}
-  className={`absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full backdrop-blur-md shadow-lg transition-all duration-300 hover:scale-110 ${
-    liked
-      ? "bg-red-500 text-white"
-      : "bg-white/80 text-slate-700 hover:bg-red-500 hover:text-white"
-  }`}
+  if (liked) {
+    removeFromWishlist(product.id);
+
+    toast("Removed from Wishlist ❤️", {
+      icon: "💔",
+    });
+  } else {
+    addToWishlist({
+      id: product.id,
+      brand: product.brand,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+    });
+
+    toast.success("Added to Wishlist ❤️");
+  }
+}}
+  className={`absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full backdrop-blur-md shadow-lg transition-all duration-300 hover:scale-110 active:scale-90 ${
+  liked
+    ? "bg-red-500 text-white scale-110"
+    : "bg-white/80 text-slate-700 hover:bg-red-500 hover:text-white"
+}`}
   aria-label="Wishlist"
 >
   <FaHeart size={18} />

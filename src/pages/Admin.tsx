@@ -6,6 +6,10 @@ import ProductTable from "../components/admin/ProductTable";
 import InventoryStats from "../components/admin/InventoryStats";
 import LowStockAlert from "../components/admin/LowStockAlert";
 import RecentOrders from "../components/admin/RecentOrders";
+import SalesAnalytics from "../components/admin/SalesAnalytics";
+import RevenueChart from "../components/admin/RevenueChart";
+import CategorySalesChart from "../components/admin/CategorySalesChart";
+import TopSellingProductsChart from "../components/admin/TopSellingProductsChart";
 
 const defaultBrands = [
   "Nike",
@@ -278,6 +282,19 @@ const filteredProducts = products
   revenue={totalRevenue}
   lowStock={lowStock}
 />
+<SalesAnalytics
+  orders={orders}
+/>
+<RevenueChart
+  orders={orders}
+/>
+<CategorySalesChart
+  products={products}
+/>
+<TopSellingProductsChart
+  orders={orders}
+/>
+
 <InventoryStats
   totalProducts={products.length}
   inStock={inStock}

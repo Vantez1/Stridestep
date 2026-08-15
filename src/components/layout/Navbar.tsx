@@ -13,6 +13,43 @@ export default function Navbar() {
   const { pathname } = useLocation();
   const scrolled = scrollY > 48;
 
+  const darkThemeRoutes = new Set(["/", "/about", "/contact", "/tracking", "/shoe-marketing", "/wishlist"]);
+  const isDarkRoute = darkThemeRoutes.has(pathname);
+  // Force the "scrolled" styles on pages with light backgrounds so the
+  // navbar content is readable before the user scrolls.
+  const lightBgRoutes = new Set([
+    '/shop',
+    '/services',
+    '/quote',
+    '/shipping',
+    '/returns',
+    '/faqs',
+    '/careers',
+    '/order-tracking',
+    '/checkout',
+    '/order-success',
+    '/orders',
+  ]);
+
+  const forceScrolledPages =
+    pathname === '/cart' ||
+    pathname.startsWith('/product') ||
+    lightBgRoutes.has(pathname);
+  const scrolledLinkColor = isDarkRoute
+    ? "text-white hover:text-white/90 hover:bg-slate-950/20"
+    : "text-slate-950 hover:text-navy hover:bg-slate-100";
+  const scrolledTextColor = isDarkRoute ? "text-white" : "text-slate-950";
+  const scrolledIconStyle = isDarkRoute
+    ? "bg-slate-950/80 text-white hover:bg-white/10"
+    : "bg-white/10 text-slate-950 hover:bg-slate-100";
+  const scrolledHeaderStyle = isDarkRoute
+    ? "bg-slate-950/15 backdrop-blur-sm border-white/10 py-3"
+    : "bg-white/10 backdrop-blur-sm border-white/10 py-3";
+  const scrolledPortalButton = isDarkRoute
+    ? "border-white/25 text-white hover:border-white/60 hover:text-white"
+    : "border-slate-300 text-slate-950 hover:bg-white/10 hover:text-slate-950";
+  const scrolledToggleColor = isDarkRoute ? "text-white" : "text-slate-950";
+
 const cartContext = useContext(CartContext);
 
 if (!cartContext) {
@@ -40,9 +77,9 @@ const wishlistCount = wishlist.length;
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-         scrolled
-  ? "bg-white/70 backdrop-blur-xl border-b border-white/30 shadow-lg py-3"
-  : "bg-transparent py-5"
+          scrolled || forceScrolledPages
+            ? scrolledHeaderStyle
+            : "bg-transparent py-5"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
@@ -53,13 +90,9 @@ const wishlistCount = wishlist.length;
   className="flex items-center no-underline"
 >
  <img
-  src={
-    scrolled
-      ? "/brands/logo-full.png"
-      : "/brands/logo-full-white.png"
-  }
+  src={scrolled || forceScrolledPages ? "/brands/logo-full.png" : "/brands/logo-full-white.png"}
   alt="StrideStep"
-  className="h-16 w-auto object-contain transition-all duration-300 hover:scale-105 lg:h-[72px]"
+  className={`h-16 w-auto object-contain transition-all duration-300 hover:scale-105 ${scrolled || forceScrolledPages ? 'h-20 lg:h-[96px]' : 'lg:h-[72px]'}`}
 />
 </Link>
 
@@ -72,9 +105,9 @@ const wishlistCount = wishlist.length;
                 className={`relative px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 no-underline hover:-translate-y-0.5 ${
                   pathname === link.href
                     ? "text-amber-brand bg-amber-50"
-                    : scrolled
-                    ? "text-slate-700 hover:text-navy hover:bg-slate-100"
-                    : "text-white/90 hover:text-white hover:bg-white/10"
+                    : scrolled || forceScrolledPages
+                        ? scrolledLinkColor
+                        : "text-white/90 hover:text-white hover:bg-white/10"
                 }`}
               >
                 {link.label}
@@ -89,8 +122,8 @@ const wishlistCount = wishlist.length;
   <Link
     to="/wishlist"
     className={`relative flex h-11 w-11 items-center justify-center rounded-full transition-all duration-300 ${
-      scrolled
-        ? "bg-white text-slate-700 hover:bg-red-50 hover:text-red-500"
+      scrolled || forceScrolledPages
+        ? scrolledIconStyle
         : "bg-white/10 text-white hover:bg-white/20"
     }`}
   >
@@ -107,8 +140,8 @@ const wishlistCount = wishlist.length;
   <Link
     to="/cart"
     className={`relative flex h-11 w-11 items-center justify-center rounded-full transition-all duration-300 ${
-      scrolled
-        ? "bg-white text-slate-700 hover:bg-amber-50 hover:text-amber-600"
+      scrolled || forceScrolledPages
+        ? "bg-slate-950/80 text-white hover:bg-white/10"
         : "bg-white/10 text-white hover:bg-white/20"
     }`}
   >
@@ -128,9 +161,9 @@ const wishlistCount = wishlist.length;
             <Link
               to="/portal"
               className={`text-sm font-semibold px-4 py-2 rounded-lg border transition-all duration-200 no-underline ${
-                scrolled
-                  ? 'border-slate-200 text-slate-700 hover:border-navy hover:text-navy'
-                  : 'border-white/40 text-white hover:bg-white hover:text-navy'
+                scrolled || forceScrolledPages
+                  ? scrolledPortalButton
+                    : 'border-white/40 text-white hover:bg-white hover:text-navy'
               }`}
             >
               Customer Portal
@@ -146,7 +179,7 @@ const wishlistCount = wishlist.length;
           {/* Mobile toggle */}
           <button
             onClick={toggle}
-            className={`lg:hidden p-2 rounded-lg transition-colors ${scrolled ? 'text-navy' : 'text-white'}`}
+            className={`lg:hidden p-2 rounded-lg transition-colors ${scrolled || forceScrolledPages ? scrolledToggleColor : 'text-white'}`}
             aria-label="Toggle menu"
           >
             {open ? <X size={22} /> : <Menu size={22} />}
@@ -178,6 +211,39 @@ const wishlistCount = wishlist.length;
               {link.label}
             </Link>
           ))}
+
+<div className="mt-6 flex justify-center gap-6">
+
+  <Link
+    to="/wishlist"
+    onClick={close}
+    className="relative flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20"
+  >
+    <FaHeart size={18} />
+
+    {wishlistCount > 0 && (
+      <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+        {wishlistCount}
+      </span>
+    )}
+  </Link>
+
+  <Link
+    to="/cart"
+    onClick={close}
+    className="relative flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20"
+  >
+    <FaShoppingBag size={18} />
+
+    {cartCount > 0 && (
+      <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-[10px] font-bold text-white">
+        {cartCount}
+      </span>
+    )}
+  </Link>
+
+</div>
+
           <div className="mt-8 flex flex-col gap-3">
             <Link to="/portal" onClick={close} className="py-3 text-center rounded-lg border border-white/30 text-white text-sm font-semibold no-underline hover:bg-white/10 transition-colors">
               Customer Portal

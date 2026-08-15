@@ -18,6 +18,10 @@ import ProductDetails from "./pages/ProductDetails";
 import Wishlist from "./pages/Wishlist";
 import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";
+import Shipping from "./pages/Shipping";
+import Returns from "./pages/Returns";
+import FAQs from "./pages/FAQs";
+import Quote from "./pages/Quote";
 import Admin from "./pages/Admin";
 import AdminLogin from "./pages/AdminLogin";
 import Orders from "./pages/Orders";
@@ -44,7 +48,7 @@ function Layout({ children }: { children: React.ReactNode }) {
     <>
       {!isPortal && <Navbar />}
 
-      <main>{children}</main>
+      <main className={!isPortal ? 'pt-12' : ''}>{children}</main>
 
       {!isPortal && <Footer />}
     </>
@@ -59,6 +63,7 @@ export default function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/shop" element={<Shop />} />
           <Route path="/services" element={<Shop />} />
           <Route path="/tracking" element={<OrderTracking />} />
           <Route path="/shoe-marketing" element={<ShoeMarketing />} />
@@ -68,6 +73,11 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/portal" element={<Portal />} />
+          <Route path="/quote" element={<Quote />} />
+          <Route path="/shipping" element={<Shipping />} />
+          <Route path="/returns" element={<Returns />} />
+          <Route path="/order-tracking" element={<OrderTracking />} />
+          <Route path="/faqs" element={<FAQs />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-success" element={<OrderSuccess />} />

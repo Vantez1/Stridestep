@@ -1,4 +1,5 @@
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 type ProductActionsProps = {
   product: {
@@ -46,6 +47,7 @@ export default function ProductActions({
 
 console.log("Stock:", product.stock);
 console.log("Quantity:", quantity);
+const navigate = useNavigate();
 
   return (
     <div className="space-y-8">
@@ -125,15 +127,15 @@ console.log("Quantity:", quantity);
         <div className="flex w-fit items-center rounded-xl border">
 
           <button
-  disabled={quantity >= product.stock}
-  onClick={() => setQuantity(quantity + 1)}
-  className={`px-5 py-3 ${
-    quantity >= product.stock
+  disabled={quantity <= 1}
+  onClick={() => setQuantity(quantity - 1)}
+  className={`px-5 py-3 transition ${
+    quantity <= 1
       ? "cursor-not-allowed text-gray-400"
-      : ""
+      : "hover:bg-slate-100"
   }`}
 >
-  +
+  −
 </button>
 
           <span className="px-6 font-bold">
@@ -194,10 +196,18 @@ console.log("Quantity:", quantity);
       quantity
     );
 
-    toast.success(`${quantity} item(s) added to cart 🛒`);
+    toast.success(
+  `${quantity} × ${product.name} added to your cart 🛒`,
+  {
+    duration: 2500,
+  }
+);
 
     // Reset quantity after adding
     setQuantity(1);
+    setSelectedSize("");
+    setSelectedColor("");
+
   }}
   className={`rounded-2xl py-4 text-lg font-bold text-white transition ${
     product.stock === 0
@@ -209,12 +219,38 @@ console.log("Quantity:", quantity);
     ? "Out of Stock"
     : `Add ${quantity} to Cart`}
 </button>
-  <button
-    className="rounded-2xl border-2 border-royal py-4 text-lg font-bold text-royal transition hover:bg-royal hover:text-white"
-  >
-    Buy Now
-  </button>
+ <button
+  disabled={product.stock === 0}
+  onClick={() => {
+    if (!selectedSize) {
+      toast.error("Please select a shoe size 👟");
+      return;
+    }
 
+    if (!selectedColor) {
+      toast.error("Please select a colour 🎨");
+      return;
+    }
+
+    addToCart(
+      {
+        id: product.id,
+        brand: product.brand,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        size: selectedSize,
+        color: selectedColor,
+      },
+      quantity
+    );
+
+    navigate("/checkout");
+  }}
+  className="rounded-2xl border-2 border-royal py-4 text-lg font-bold text-royal transition hover:bg-royal hover:text-white"
+>
+  Buy Now
+</button>
 </div>
     </div>
   );

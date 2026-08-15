@@ -1,7 +1,15 @@
-import { useState, useContext } from "react";
-import { CartContext } from "../context/CartContext";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
+import { CartContext } from "../context/CartContext";
+
+import CheckoutHero from "../components/checkout/CheckoutHero";
+import CheckoutForm from "../components/checkout/CheckoutForm";
+import PaymentMethod from "../components/checkout/PaymentMethod";
+import OrderSummary from "../components/checkout/OrderSummary";
+import OrderTotals from "../components/checkout/OrderTotals";
+import PlaceOrderButton from "../components/checkout/PlaceOrderButton";
 
 export default function Checkout() {
   const cartContext = useContext(CartContext);
@@ -10,22 +18,23 @@ export default function Checkout() {
     throw new Error("CartContext is not available.");
   }
 
-  const {
-    cart,
-    clearCart,
-  } = cartContext;
+  const { cart, clearCart } = cartContext;
 
   const navigate = useNavigate();
 
-  const total = cart.reduce(
+  const subtotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
 
-  const deliveryFee = total >= 10000 ? 0 : 500;
-  const grandTotal = total + deliveryFee;
+  const deliveryFee = subtotal >= 10000 ? 0 : 500;
 
-  const [paymentMethod, setPaymentMethod] = useState("mpesa");
+  const grandTotal = subtotal + deliveryFee;
+
+  const [loading, setLoading] = useState(false);
+
+  const [paymentMethod, setPaymentMethod] =
+    useState("M-Pesa");
 
   const [form, setForm] = useState({
     fullName: "",
@@ -33,303 +42,165 @@ export default function Checkout() {
     phone: "",
     address: "",
   });
+
   const [errors, setErrors] = useState({
     fullName: "",
     email: "",
     phone: "",
     address: "",
-});
-const validateForm = () => {
-  const newErrors = {
-    fullName: "",
-    email: "",
-    phone: "",
-    address: "",
+  });
+
+  const validateForm = () => {
+    const newErrors = {
+      fullName: "",
+      email: "",
+      phone: "",
+      address: "",
+    };
+
+    let valid = true;
+
+    if (!form.fullName.trim()) {
+      newErrors.fullName = "Full name is required";
+      valid = false;
+    }
+
+    if (!form.email.trim()) {
+      newErrors.email = "Email is required";
+      valid = false;
+    } else if (!/\S+@\S+\.\S+/.test(form.email)) {
+      newErrors.email = "Please enter a valid email.";
+      valid = false;
+    }
+
+    if (!form.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+      valid = false;
+    }
+
+    if (!form.address.trim()) {
+      newErrors.address = "Delivery address is required";
+      valid = false;
+    }
+
+    setErrors(newErrors);
+
+    return valid;
   };
+    const handlePlaceOrder = () => {
+    if (!validateForm()) return;
 
-  let valid = true;
+    if (cart.length === 0) {
+      toast.error("Your cart is empty.");
+      return;
+    }
 
-  if (!form.fullName.trim()) {
-    newErrors.fullName = "Full name is required";
-    valid = false;
-  }
+    setLoading(true);
 
-  if (!form.email.trim()) {
-    newErrors.email = "Email is required";
-    valid = false;
-  } else if (!/\S+@\S+\.\S+/.test(form.email)) {
-    newErrors.email = "Enter a valid email address";
-    valid = false;
-  }
+    setTimeout(() => {
+      const existingOrders = JSON.parse(
+        localStorage.getItem("orders") || "[]"
+      );
 
-  if (!form.phone.trim()) {
-    newErrors.phone = "Phone number is required";
-    valid = false;
-  }
+      const orderNumber =
+        "SS-" +
+        new Date().getFullYear() +
+        "-" +
+        Math.floor(100000 + Math.random() * 900000);
 
-  if (!form.address.trim()) {
-    newErrors.address = "Delivery address is required";
-    valid = false;
-  }
+      const newOrder = {
+        id: Date.now(),
+        orderNumber,
+        customer: form.fullName,
+        email: form.email,
+        phone: form.phone,
+        address: form.address,
+        paymentMethod,
+        total: grandTotal,
+        status: "Pending" as const,
+        items: cart,
+        createdAt: new Date().toLocaleString(),
+      };
 
-  setErrors(newErrors);
+      localStorage.setItem(
+        "orders",
+        JSON.stringify([...existingOrders, newOrder])
+      );
 
-  return valid;
-};
+      const savedProducts =
+        JSON.parse(localStorage.getItem("products") || "[]");
 
-  return (
-    <div className="max-w-6xl mx-auto px-6 py-24">
-      <h1 className="text-4xl font-bold mb-10">
-        Checkout
-      </h1>
+      const updatedProducts = savedProducts.map((product: any) => {
+        const purchasedItem = cart.find(
+          (item) => item.id === product.id
+        );
 
-      <div className="grid lg:grid-cols-2 gap-12">
+        if (!purchasedItem) return product;
 
-        {/* Customer Details */}
+        return {
+          ...product,
+          stock: Math.max(
+            0,
+            product.stock - purchasedItem.quantity
+          ),
+        };
+      });
 
-        <div className="space-y-5">
+      localStorage.setItem(
+        "products",
+        JSON.stringify(updatedProducts)
+      );
 
-          <input
-            type="text"
-            placeholder="Full Name"
-            value={form.fullName}
-            onChange={(e) =>
-              setForm({ ...form, fullName: e.target.value })
-            }
-            className="w-full rounded-xl border p-4"
+      clearCart();
+
+      toast.success("Order placed successfully!");
+
+      setLoading(false);
+
+      navigate("/order-success");
+    }, 1500);
+  };
+    return (
+    <>
+      <CheckoutHero />
+
+      <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 lg:grid-cols-2">
+
+        {/* Left Side */}
+        <div>
+
+          <CheckoutForm
+            form={form}
+            setForm={setForm}
+            errors={errors}
           />
-          {errors.fullName && (
-            <p className="text-red-600 text-sm">{errors.fullName}</p>
-         )}
 
-          <input
-            type="email"
-            placeholder="Email Address"
-            value={form.email}
-            onChange={(e) =>
-              setForm({ ...form, email: e.target.value })
-            }
-            className="w-full rounded-xl border p-4"
+          <PaymentMethod
+            paymentMethod={paymentMethod}
+            setPaymentMethod={setPaymentMethod}
           />
-          {errors.email && (
-            <p className="text-red-600 text-sm">{errors.email}</p>
-        )}
 
-          <input
-            type="tel"
-            placeholder="Phone Number"
-            value={form.phone}
-            onChange={(e) =>
-              setForm({ ...form, phone: e.target.value })
-            }
-            className="w-full rounded-xl border p-4"
-          />
-          {errors.phone && (
-            <p className="text-red-600 text-sm">{errors.phone}</p>
-          )}
-
-          <textarea
-            placeholder="Delivery Address"
-            value={form.address}
-            onChange={(e) =>
-              setForm({ ...form, address: e.target.value })
-            }
-            className="w-full rounded-xl border p-4 h-32"
-          />
-          {errors.address && (
-            <p className="text-red-600 text-sm">{errors.address}</p>
-          )}  
         </div>
-{errors.address && (
-  <p className="text-red-600 text-sm">{errors.address}</p>
-)}
 
-{/* Payment Method */}
+        {/* Right Side */}
+        <div className="lg:sticky lg:top-28 h-fit">
 
-<div className="mt-8 rounded-2xl border p-6">
-  <h3 className="mt-6 text-lg font-semibold">
-  Payment Method
-</h3>
+          <OrderSummary
+            cart={cart}
+          />
 
-<div className="space-y-3">
-  <label className="flex items-center gap-3">
-    <input
-      type="radio"
-      name="payment"
-      value="M-Pesa"
-      checked={paymentMethod === "M-Pesa"}
-      onChange={(e) => setPaymentMethod(e.target.value)}
-    />
-    M-Pesa
-  </label>
+          <OrderTotals
+            subtotal={subtotal}
+          />
 
-  <label className="flex items-center gap-3">
-    <input
-      type="radio"
-      name="payment"
-      value="Card"
-      checked={paymentMethod === "Card"}
-      onChange={(e) => setPaymentMethod(e.target.value)}
-    />
-    Credit / Debit Card
-  </label>
-
-  <label className="flex items-center gap-3">
-    <input
-      type="radio"
-      name="payment"
-      value="Cash on Delivery"
-      checked={paymentMethod === "Cash on Delivery"}
-      onChange={(e) => setPaymentMethod(e.target.value)}
-    />
-    Cash on Delivery
-  </label>
-</div>
-</div>
-
-        {/* Order Summary */}
-
-        <div className="rounded-2xl border p-6 shadow">
-
-          <h2 className="text-2xl font-bold mb-6">
-            Order Summary
-          </h2>
-
-          {cart.map((item) => (
-  <div
-    key={`${item.id}-${item.size}-${item.color}`}
-    className="mb-5 flex justify-between border-b pb-4"
-  >
-    <div>
-      <p className="font-semibold">
-        {item.name}
-      </p>
-
-      <p className="text-sm text-slate-500">
-        {item.brand}
-      </p>
-
-      <p className="mt-1 text-sm text-slate-600">
-        Size: <strong>{item.size}</strong>
-      </p>
-
-      <p className="text-sm text-slate-600">
-        Colour: <strong>{item.color}</strong>
-      </p>
-
-      <p className="text-sm text-slate-600">
-        Qty: <strong>{item.quantity}</strong>
-      </p>
-    </div>
-
-    <div className="font-bold">
-      KSh {(item.price * item.quantity).toLocaleString()}
-    </div>
-  </div>
-))}
-
-          <hr className="my-6" />
-
-<div className="space-y-3">
-
-  <div className="flex justify-between">
-    <span>Subtotal</span>
-    <span>KSh {total.toLocaleString()}</span>
-  </div>
-
-  <div className="flex justify-between">
-    <span>Delivery</span>
-
-    <span className="font-semibold">
-      {deliveryFee === 0
-        ? "FREE"
-        : `KSh ${deliveryFee.toLocaleString()}`}
-    </span>
-  </div>
-
-  <hr />
-
-  <div className="flex justify-between text-2xl font-bold">
-    <span>Grand Total</span>
-
-    <span>
-      KSh {grandTotal.toLocaleString()}
-    </span>
-  </div>
-
-</div>
-
-<button
- onClick={() => {
-  if (!validateForm()) return;
-
-  const existingOrders = JSON.parse(
-    localStorage.getItem("orders") || "[]"
-  );
-
-  const newOrder = {
-    id: Date.now(),
-    customer: form.fullName,
-    total: grandTotal,
-    paymentMethod,
-    status: "Pending" as const,
-    items: cart,
-    email: form.email,
-    phone: form.phone,
-    address: form.address,
-    createdAt: new Date().toLocaleString(),
-  };
-
-  console.log("Saving order...", newOrder);
-
-  localStorage.setItem(
-    "orders",
-    JSON.stringify([...existingOrders, newOrder])
-  );
-
- console.log("Orders after save:", localStorage.getItem("orders"));
-
-const savedProducts = JSON.parse(
-  localStorage.getItem("products") || "null"
-) ?? [];
-
-const updatedProducts = savedProducts.map((product: any) => {
-  const purchasedItem = cart.find(
-    (item) => item.id === product.id
-  );
-
-  if (!purchasedItem) return product;
-
-  return {
-    ...product,
-    stock: Math.max(
-      0,
-      product.stock - purchasedItem.quantity
-    ),
-  };
-});
-
-localStorage.setItem(
-  "products",
-  JSON.stringify(updatedProducts)
-);
-
-clearCart();
-
-  navigate("/order-success");
-}}
-  className="mt-8 w-full rounded-xl bg-green-600 py-4 text-white font-semibold hover:bg-green-700 transition"
->
-  Place Order
-</button>
-
-<p className="mt-4 text-center text-sm text-slate-500">
-  🔒 Your payment information is securely processed.
-</p>
+          <PlaceOrderButton
+            loading={loading}
+            onClick={handlePlaceOrder}
+          />
 
         </div>
 
       </div>
-    </div>
+    </>
   );
 }

@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import toast from "react-hot-toast";
 
 import { products } from "../data/products";
 
@@ -55,8 +54,8 @@ export default function ProductDetails() {
     .slice(0, 4);
 
       return (
-  <div className="bg-slate-50">
-    <div className="mx-auto max-w-7xl px-6 py-16">
+      <div className="bg-slate-50">
+        <div className="mx-auto max-w-7xl px-6 pb-16">
 
       <nav className="mb-8 flex flex-wrap items-center gap-2 text-sm text-slate-500">
 
@@ -87,8 +86,10 @@ export default function ProductDetails() {
         </span>
 
       </nav>
-  </div>
-<div className="grid gap-8 lg:grid-cols-2">
+  
+<div className="grid items-start gap-14 lg:grid-cols-2">
+
+</div>
 
         <ProductGallery
           product={product}
