@@ -33,6 +33,7 @@ export default function Navbar() {
 
   const forceScrolledPages =
     pathname === '/cart' ||
+    pathname === '/' ||
     pathname.startsWith('/product') ||
     lightBgRoutes.has(pathname);
   const scrolledLinkColor = isDarkRoute
@@ -43,8 +44,8 @@ export default function Navbar() {
     ? "bg-slate-950/80 text-white hover:bg-white/10"
     : "bg-white/10 text-slate-950 hover:bg-slate-100";
   const scrolledHeaderStyle = isDarkRoute
-    ? "bg-slate-950/15 backdrop-blur-sm border-white/10 py-3"
-    : "bg-white/10 backdrop-blur-sm border-white/10 py-3";
+    ? "bg-slate-950/15 border-white/10 py-3"
+    : "bg-white/10 border-white/10 py-3";
   const scrolledPortalButton = isDarkRoute
     ? "border-white/25 text-white hover:border-white/60 hover:text-white"
     : "border-slate-300 text-slate-950 hover:bg-white/10 hover:text-slate-950";
