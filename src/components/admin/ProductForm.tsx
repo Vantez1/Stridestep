@@ -14,6 +14,7 @@ type ProductFormProps = {
   setCategories: React.Dispatch<React.SetStateAction<string[]>>;
 
   handleAddProduct: () => void;
+  handleCancelEdit: () => void;
 };
 
 export default function ProductForm({
@@ -25,6 +26,7 @@ export default function ProductForm({
   categories,
   setCategories,
   handleAddProduct,
+  handleCancelEdit,
 }: ProductFormProps) {
 
   return (
@@ -268,14 +270,28 @@ export default function ProductForm({
 
         </div>
 
-        <button
-          onClick={handleAddProduct}
-          className="mt-6 rounded-xl bg-blue-700 px-8 py-3 font-semibold text-white hover:bg-blue-800"
-        >
-          {editingId !== null
-            ? "Update Product"
-            : "Add Product"}
-        </button>
+        <div className="mt-6 flex flex-wrap gap-3">
+
+  <button
+    onClick={handleAddProduct}
+    className="rounded-xl bg-blue-700 px-8 py-3 font-semibold text-white hover:bg-blue-800"
+  >
+    {editingId !== null
+      ? "Update Product"
+      : "Add Product"}
+  </button>
+
+  {editingId !== null && (
+    <button
+      type="button"
+      onClick={handleCancelEdit}
+      className="rounded-xl border border-slate-300 bg-white px-8 py-3 font-semibold text-slate-700 hover:bg-slate-50"
+    >
+      Cancel Edit
+    </button>
+  )}
+
+</div>
       </div>
       
     );

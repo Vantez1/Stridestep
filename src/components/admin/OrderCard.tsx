@@ -1,3 +1,4 @@
+import { useState } from "react";
 import CustomerDetails from "./CustomerDetails";
 import OrderItems from "./OrderItems";
 import OrderStatus from "./OrderStatus";
@@ -35,12 +36,17 @@ type OrderCardProps = {
     id: number,
     status: Order["status"]
   ) => void;
+  deleteOrder: (id: number) => void;
 };
 
 export default function OrderCard({
   order,
   updateOrderStatus,
+  deleteOrder,
 }: OrderCardProps) {
+
+  const [showDetails, setShowDetails] = useState(true);
+
   return (
     <div className="rounded-3xl border bg-white p-8 shadow-sm transition hover:shadow-lg">
 
@@ -64,19 +70,53 @@ export default function OrderCard({
           updateOrderStatus={updateOrderStatus}
         />
       </div>
+        <button
+          onClick={() => setShowDetails(!showDetails)}
+          className="rounded-xl border px-4 py-2 font-semibold transition hover:bg-slate-50"
+        >
+          {showDetails ? "Hide Details" : "View Details"}
+        </button>
 
-      <CustomerDetails
-        customer={order.customer}
-        phone={order.phone}
-        email={order.email}
-        address={order.address}
-        paymentMethod={order.paymentMethod}
-        total={order.total}
-      />
+{order.status !== "Cancelled" && (
+  <button
+    onClick={() => {
+      const confirmed = window.confirm(
+        "Are you sure you want to cancel this order?"
+      );
 
-      <OrderItems
-        items={order.items}
-      />
+      if (!confirmed) return;
+
+      updateOrderStatus(order.id, "Cancelled");
+    }}
+    className="rounded-xl bg-red-600 px-4 py-2 font-semibold text-white transition hover:bg-red-700"
+  >
+    Cancel Order
+  </button>
+)}
+
+<button
+  onClick={() => deleteOrder(order.id)}
+  className="rounded-xl bg-slate-800 px-4 py-2 font-semibold text-white transition hover:bg-slate-900"
+>
+  Delete Order
+</button>
+
+            {showDetails && (
+        <>
+          <CustomerDetails
+            customer={order.customer}
+            phone={order.phone}
+            email={order.email}
+            address={order.address}
+            paymentMethod={order.paymentMethod}
+            total={order.total}
+          />
+
+          <OrderItems
+            items={order.items}
+          />
+        </>
+      )}
     </div>
   );
 }

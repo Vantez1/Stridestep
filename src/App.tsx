@@ -48,7 +48,7 @@ function Layout({ children }: { children: React.ReactNode }) {
     <>
       {!isPortal && <Navbar />}
 
-      <main className={!isPortal ? 'pt-12' : ''}>{children}</main>
+      <main>{children}</main>
 
       {!isPortal && <Footer />}
     </>

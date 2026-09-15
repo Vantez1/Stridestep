@@ -55,7 +55,7 @@ export default function ProductDetails() {
 
       return (
       <div className="bg-slate-50">
-        <div className="mx-auto max-w-7xl px-6 pb-16">
+        <div className="mx-auto max-w-7xl px-6 pb-16 pt-28">
 
       <nav className="mb-8 flex flex-wrap items-center gap-2 text-sm text-slate-500">
 

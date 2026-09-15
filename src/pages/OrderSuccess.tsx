@@ -13,8 +13,8 @@ export default function OrderSuccess() {
     );
   }
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6">
-      <div className="max-w-lg w-full rounded-2xl bg-white p-10 shadow-xl text-center">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6 pt-28">
+      <div className="w-full max-w-4xl rounded-2xl bg-white p-6 shadow-xl sm:p-10">
 
         <div className="text-6xl mb-6">
           ✅
@@ -48,28 +48,64 @@ export default function OrderSuccess() {
     Order Summary
   </h3>
 
+
+<h3 className="mb-4 text-2xl font-bold">
+  Purchased Items
+</h3>
+
+  <div className="space-y-4">
   {latestOrder.items.map((item: any) => (
     <div
       key={`${item.id}-${item.size}-${item.color}`}
-      className="mb-3 border-b pb-3"
+      className="flex gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
     >
-      <p className="font-semibold">
-        {item.name}
-      </p>
+      {/* Product Image */}
+      <img
+        src={item.image}
+        alt={item.name}
+        className="h-24 w-24 rounded-xl object-cover"
+      />
 
-      <p className="text-sm text-slate-600">
-        Size: {item.size}
-      </p>
+      {/* Product Information */}
+      <div className="flex flex-1 flex-col justify-between">
+        <div>
+          <p className="text-sm font-medium uppercase tracking-wide text-slate-500">
+            {item.brand}
+          </p>
 
-      <p className="text-sm text-slate-600">
-        Colour: {item.color}
-      </p>
+          <h4 className="text-lg font-bold text-slate-900">
+            {item.name}
+          </h4>
+        </div>
 
-      <p className="text-sm text-slate-600">
-        Qty: {item.quantity}
-      </p>
+        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-600">
+          <span>
+            Size: <strong>{item.size}</strong>
+          </span>
+
+          <span>
+            Colour: <strong>{item.color}</strong>
+          </span>
+
+          <span>
+            Qty: <strong>{item.quantity}</strong>
+          </span>
+        </div>
+      </div>
+
+      {/* Price */}
+      <div className="flex flex-col items-end justify-center">
+        <p className="text-lg font-bold text-royal">
+          KSh {(item.price * item.quantity).toLocaleString()}
+        </p>
+
+        <p className="text-xs text-slate-500">
+          KSh {item.price.toLocaleString()} each
+        </p>
+      </div>
     </div>
   ))}
+</div>
 
   <div className="mt-4 flex justify-between font-bold text-lg">
     <span>Total</span>
@@ -104,13 +140,23 @@ export default function OrderSuccess() {
 
 </div>
 
-        <Link
-          to="/services"
-          className="block rounded-xl bg-blue-700 py-4 text-white font-semibold hover:bg-blue-800 transition"
-        >
-          Continue Shopping
-        </Link>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2">
 
+  <Link
+    to="/orders"
+    className="rounded-xl border border-slate-300 px-6 py-4 text-center font-semibold text-slate-700 no-underline transition hover:border-royal hover:text-royal"
+  >
+    View My Orders
+  </Link>
+
+  <Link
+    to="/services"
+    className="rounded-xl bg-royal px-6 py-4 text-center font-semibold text-white no-underline transition hover:bg-navy"
+  >
+    Continue Shopping
+  </Link>
+
+</div>
       </div>
     </div>
   );

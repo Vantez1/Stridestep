@@ -10,7 +10,7 @@ export default function FAQs() {
 
   return (
     <section className="pt-0 pb-20 bg-slate-50">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-6 pt-8">
         <div className="mb-8 text-sm text-slate-500">
           <Link to="/" className="hover:text-slate-900">Home</Link>
           <span className="mx-2">/</span>

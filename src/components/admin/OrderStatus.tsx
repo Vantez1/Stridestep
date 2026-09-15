@@ -58,21 +58,32 @@ export default function OrderStatus({
         </label>
 
         <select
-          value={status}
-          onChange={(e) =>
-            updateOrderStatus(
-              id,
-              e.target.value as OrderStatusProps["status"]
-            )
-          }
-          className="rounded-xl border px-4 py-3"
-        >
-          <option value="Pending">Pending</option>
-          <option value="Processing">Processing</option>
-          <option value="Shipped">Shipped</option>
-          <option value="Delivered">Delivered</option>
-          <option value="Cancelled">Cancelled</option>
-        </select>
+  value={status}
+  onChange={(e) => {
+    const newStatus =
+      e.target.value as OrderStatusProps["status"];
+
+    if (
+      newStatus === "Cancelled" &&
+      status !== "Cancelled"
+    ) {
+      const confirmed = window.confirm(
+        "Cancel this order? The purchased items will be returned to stock."
+      );
+
+      if (!confirmed) return;
+    }
+
+    updateOrderStatus(id, newStatus);
+  }}
+  className="rounded-xl border px-4 py-3"
+>
+  <option value="Pending">Pending</option>
+  <option value="Processing">Processing</option>
+  <option value="Shipped">Shipped</option>
+  <option value="Delivered">Delivered</option>
+  <option value="Cancelled">Cancelled</option>
+</select>
       </div>
     </>
   );

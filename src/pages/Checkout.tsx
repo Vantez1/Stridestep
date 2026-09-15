@@ -127,6 +127,11 @@ export default function Checkout() {
         JSON.stringify([...existingOrders, newOrder])
       );
 
+      localStorage.setItem(
+        "latestOrder",
+         JSON.stringify(newOrder)
+      );
+
       const savedProducts =
         JSON.parse(localStorage.getItem("products") || "[]");
 
