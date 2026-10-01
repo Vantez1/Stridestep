@@ -17,50 +17,103 @@ export default function RecentOrders({
     .sort((a, b) => b.id - a.id)
     .slice(0, 5);
 
-  return (
-    <div className="mb-10 rounded-2xl border bg-white p-6 shadow-sm">
-      <h2 className="mb-6 text-2xl font-bold">
-        🛒 Recent Orders
-      </h2>
+  const getStatusStyles = (status: string) => {
+    switch (status) {
+      case "Delivered":
+        return "bg-emerald-100 text-emerald-700";
 
+      case "Processing":
+        return "bg-blue-100 text-blue-700";
+
+      case "Shipped":
+        return "bg-purple-100 text-purple-700";
+
+      case "Cancelled":
+        return "bg-red-100 text-red-700";
+
+      default:
+        return "bg-amber-100 text-amber-700";
+    }
+  };
+
+  return (
+    <section className="mb-10 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+      {/* Header */}
+      <div className="flex flex-col gap-2 border-b border-slate-100 p-6 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-slate-900">
+            Recent Orders
+          </h2>
+
+          <p className="mt-1 text-sm text-slate-500">
+            The latest customer orders from your store.
+          </p>
+        </div>
+
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100 text-lg">
+          🛒
+        </div>
+      </div>
+
+      {/* Orders */}
       {recentOrders.length === 0 ? (
-        <p className="text-slate-500">
-          No orders yet.
-        </p>
+        <div className="p-10 text-center">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-slate-100 text-2xl">
+            🛍️
+          </div>
+
+          <h3 className="mt-4 font-semibold text-slate-900">
+            No orders yet
+          </h3>
+
+          <p className="mt-1 text-sm text-slate-500">
+            New customer orders will appear here.
+          </p>
+        </div>
       ) : (
-        <div className="space-y-4">
+        <div className="divide-y divide-slate-100">
           {recentOrders.map((order) => (
             <div
               key={order.id}
-              className="flex items-center justify-between rounded-xl border p-4"
+              className="flex flex-col gap-4 p-5 transition-colors hover:bg-slate-50 sm:flex-row sm:items-center sm:justify-between"
             >
-              <div>
-                <h3 className="font-semibold">
-                  {order.customer}
-                </h3>
+              {/* Customer */}
+              <div className="flex items-center gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-slate-100 font-bold text-slate-600">
+                  {order.customer
+                    .charAt(0)
+                    .toUpperCase()}
+                </div>
 
-                <p className="text-sm text-slate-500">
-                  {order.createdAt ?? `Order #${order.id}`}
-                </p>
+                <div>
+                  <h3 className="font-semibold text-slate-900">
+                    {order.customer}
+                  </h3>
+
+                  <p className="mt-1 text-sm text-slate-500">
+                    {order.createdAt ??
+                      `Order #${order.id}`}
+                  </p>
+                </div>
               </div>
 
-              <div className="text-right">
-                <p className="font-bold">
-                  KSh {order.total.toLocaleString()}
-                </p>
+              {/* Order Details */}
+              <div className="flex items-center justify-between gap-4 sm:justify-end">
+                <div className="text-left sm:text-right">
+                  <p className="font-bold text-slate-900">
+                    KSh{" "}
+                    {order.total.toLocaleString()}
+                  </p>
+
+                  <p className="mt-1 text-xs text-slate-400">
+                    Order #{order.id}
+                  </p>
+                </div>
 
                 <span
-                  className={`rounded-full px-3 py-1 text-sm font-semibold ${
-                    order.status === "Delivered"
-                      ? "bg-green-100 text-green-700"
-                      : order.status === "Processing"
-                      ? "bg-blue-100 text-blue-700"
-                      : order.status === "Shipped"
-                      ? "bg-purple-100 text-purple-700"
-                      : order.status === "Cancelled"
-                      ? "bg-red-100 text-red-700"
-                      : "bg-yellow-100 text-yellow-700"
-                  }`}
+                  className={`rounded-full px-3 py-1.5 text-xs font-bold ${getStatusStyles(
+                    order.status
+                  )}`}
                 >
                   {order.status}
                 </span>
@@ -69,6 +122,6 @@ export default function RecentOrders({
           ))}
         </div>
       )}
-    </div>
+    </section>
   );
 }

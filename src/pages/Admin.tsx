@@ -401,10 +401,24 @@ export default function Admin() {
   ========================= */
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-24">
-      <h1 className="mb-10 text-4xl font-bold">
-        Admin Dashboard
-      </h1>
+  <div className="min-h-screen bg-slate-50">
+    <div className="mx-auto max-w-7xl px-4 pb-10 pt-32 sm:px-6 lg:px-8">
+
+      {/* Page Header */}
+      <div className="mb-10">
+        <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-blue-700">
+          STRIDESTEP MANAGEMENT
+        </p>
+
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+          Admin Dashboard
+        </h1>
+
+        <p className="mt-2 max-w-2xl text-slate-600">
+          Manage your products, inventory, orders, sales and store performance
+          from one place.
+        </p>
+      </div>
 
       {/* DASHBOARD STATS */}
 
@@ -533,6 +547,7 @@ export default function Admin() {
         handleEditProduct={handleEditProduct}
         handleDeleteProduct={handleDeleteProduct}
       />
-    </div>
+        </div>
+  </div>
   );
 }
